@@ -1,0 +1,82 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 HelveticaNeue;}
+{\colortbl;\red255\green255\blue255;\red27\green31\blue34;\red0\green0\blue0;\red0\green0\blue0;
+\red6\green33\blue79;}
+{\*\expandedcolortbl;;\cssrgb\c14118\c16078\c18039;\cssrgb\c0\c0\c0;\csgray\c0\c0;
+\cssrgb\c1176\c18431\c38431;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Save the following files from https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial\
+\
+either use:\
+git clone https://github.com/chris-german/Hoffman2Tutorials.git\
+\
+Or save the files in a folder at your Desktop or somewhere you know named RTutorial:\
+* ClusterSim.R\
+* runSim.R\
+\
+\
+Run the following commands on your linux/unix shell replacing username with your Hoffman2 username:\
+\
+\
+ssh username@hoffman2.idre.ucla.edu\
+\
+module avail\
+\
+module load R/3.5.1\
+\
+R\
+\
+q()\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 mkdir RTutorials
+\f1\fs32 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+on local computer (another terminal window) run:\
+* go to RTutorials path i.e.\
+ 	cd Desktop/Hoffman2Tutorials.git/RTutorials\
+* scp ClusterSim.R runSim.R username@hoffman2.idre.ucla.edu:~/RTutorials/\
+\
+back on hoffman2 terminal:\
+\
+cd RTutorials\
+\
+qrsh\
+\
+module load R/3.5.1\
+\
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 \cb4 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 R -e \strokec5 "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"\
+\
+ls\
+\
+head n_100d_rnorm\\(n\\).txt \
+\
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 \cb4 \outl0\strokewidth0 exit\
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 \cb4 \outl0\strokewidth0 \strokec5 \
+cd RTutorials\
+\
+module load R/3.5.1\
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 Rscript ClusterSim.R \
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 \cb4 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 \
+\pard\pardeftab720\sl380\partightenfactor0
+\cf3 myjob\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+}
