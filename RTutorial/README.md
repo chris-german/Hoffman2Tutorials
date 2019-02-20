@@ -1,3 +1,22 @@
+-   [Hoffman2 / Cluster Computing](#hoffman2-cluster-computing)
+    -   [What is it?](#what-is-it)
+-   [Account Creation](#account-creation)
+-   [Logging In](#logging-in)
+-   [Basic Commands](#basic-commands)
+-   [Available Software](#available-software)
+-   [Loading Software](#loading-software)
+    -   [Accessing a compute node](#accessing-a-compute-node)
+-   [qsub](#qsub)
+-   [qrsh](#qrsh)
+-   [Resource limitations](#resource-limitations)
+    -   [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
+    -   [A single simulation run](#a-single-simulation-run)
+    -   [Multiple simulation runs](#multiple-simulation-runs)
+    -   [Transfering Files](#transfering-files)
+-   [scp](#scp)
+-   [Globus](#globus)
+    -   [Additional Resources](#additional-resources)
+
 Hoffman2 / Cluster Computing
 ============================
 
