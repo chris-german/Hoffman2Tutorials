@@ -8,7 +8,7 @@ A computer cluster is a set of connected computers (nodes) that work together un
 
 The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of memory. It consists of login nodes and compute nodes. Login nodes are where you can organize data (install packages, arrange data) and submit jobs and compute nodes are where computer-intensive tasks are run.
 
-![](cluster.png)
+![](pngs/cluster.png)
 
 Account Creation
 ================
@@ -28,7 +28,7 @@ To login, go to terminal linux/unix and type:
 ssh username@hoffman2.idre.ucla.edu 
 ```
 
-<img src="Hoffman2login.png" width="450" />
+<img src="pngs/Hoffman2login.png" width="450" />
 
 and enter your password when prompted (Can also setup ssh keys so no password is required) <https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/>.
 
@@ -59,7 +59,7 @@ Current software that you can use on Hoffman2 can be found using:
 module avail
 ```
 
-<img src="Moduleavail.png" style="width:50.0%" />
+<img src="pngs/Moduleavail.png" style="width:50.0%" />
 
 (More than the ones shown are available... very long list).
 
@@ -69,7 +69,7 @@ To see available modules that begin with a specific phrase, such as those that s
 module avail R
 ```
 
-<img src="ModuleavailR.png" style="width:70.0%" />
+<img src="pngs/ModuleavailR.png" style="width:70.0%" />
 
 Loading Software
 ================
@@ -204,7 +204,7 @@ rstudio
 
 RStudio will launch in the application that you use for x11 forwarding and you can use it as you would RStudio on your own computer.
 
-![](rstudio.png)
+![](pngs/rstudio.png)
 
 A single simulation run
 -----------------------
@@ -331,7 +331,7 @@ So on the cluster we just need to run
 Rscript ClusterSim.R
 ```
 
-<img src="Rscriptcluster.png" style="width:35.0%" />
+<img src="pngs/Rscriptcluster.png" style="width:35.0%" />
 
 The generated `tmp.sh` file will read like this with different sample size and distributions created:
 
@@ -364,7 +364,7 @@ You can check on the state of your current jobs by running:
 myjob
 ```
 
-<img src="Myjob.png" width="550" />
+<img src="pngs/Myjob.png" width="550" />
 
 To check the output files generated after the jobs have run.
 
@@ -423,7 +423,7 @@ In short,login to globus, then under endpoints, select `Create new endpoint`. Se
 
 From there, you can login to [globus.com](globus.com) or launch Globus Connect Personal and click files transfer. There you can choose to transfer files between your machine and the cluster. To find the endpoint to transfer files to/from on the server, search "Hoffman2" in the Collection bar of the File Manager and select one of the official UCLA Hoffman2 Data Transfer Nodes.
 
-![](Globus.png)
+![](pngs/Globus.png)
 
 Additional Resources
 --------------------
