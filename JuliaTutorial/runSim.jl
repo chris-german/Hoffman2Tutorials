@@ -39,6 +39,6 @@ for r in 1:reps
     simres[r, 2] = est_mean_prime(x)
 end
 
-outfile = "n_$(n)_reps_$(reps)_dist_$(d).txt"
+outfile = "simresults/n_$(n)_reps_$(reps)_dist_$(d).txt"
 DelimitedFiles.writedlm(outfile, simres, ",")
 # may add an optional zip step here to reduce storage
