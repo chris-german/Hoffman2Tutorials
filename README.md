@@ -75,6 +75,7 @@ module avail julia
 **Need to replace below screenshot**
 <img src="JuliaTutorial/pngs/modavailj.png" width="500">
 
+
 ## Loading Software
 
 To load a module, say `julia` version 1.1.0, for use type:
@@ -84,6 +85,10 @@ module load julia/1.1.0
 
 If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed later to do this. Computing power is limited on login nodes so you should not run any analyses on the login node.
 
+
+## Transfering files
+
+**Move the section on transferring files here. Should mention that using Git/GitHub to synchronize source code between computers and platforms is the more productive and professional way.**
 
 ## Submit a batch job by `qsub`
 
