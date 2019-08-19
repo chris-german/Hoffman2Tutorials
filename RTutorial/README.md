@@ -3,8 +3,7 @@ Hoffman2 R Tutorial
 
 #### Chris German, Hua Zhou 
 
-- [Hoffman2 R Tutorial](#hoffman2-r-tutorial)
-      - [Chris German, Hua Zhou](#chris-german-hua-zhou)
+
 - [Hoffman2 R Tutorial/ Cluster Computing](#hoffman2-r-tutorial-cluster-computing)
   - [What is it and how to use](#what-is-it-and-how-to-use)
 - [Available Software](#available-software)
