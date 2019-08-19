@@ -1,13 +1,10 @@
-Hoffman2 R Tutorial {.title .toc-ignore}
+Hoffman2 R Tutorial 
 ===================
 
-#### Chris German, Hua Zhou {.author}
+#### Chris German, Hua Zhou 
 
--   [Hoffman2 R Tutorial/ Cluster
-    Computing](#hoffman2-r-tutorial-cluster-computing)
-    -   [What is it and how to use](#what-is-it-and-how-to-use)
-- [Hoffman2 R Tutorial {.title .toc-ignore}](#hoffman2-r-tutorial-title-toc-ignore)
-      - [Chris German, Hua Zhou {.author}](#chris-german-hua-zhou-author)
+- [Hoffman2 R Tutorial](#hoffman2-r-tutorial)
+      - [Chris German, Hua Zhou](#chris-german-hua-zhou)
 - [Hoffman2 R Tutorial/ Cluster Computing](#hoffman2-r-tutorial-cluster-computing)
   - [What is it and how to use](#what-is-it-and-how-to-use)
 - [Available Software](#available-software)
