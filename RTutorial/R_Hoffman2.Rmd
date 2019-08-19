@@ -1,73 +1,28 @@
 ---
 title: "Hoffman2 R Tutorial"
 author: "Chris German, Hua Zhou"
-date: "2/21/2019"
 output:
   html_document:
     toc: true
-    toc_depth: 4  
+    toc_depth: 4
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Hoffman2 / Cluster Computing
+# Hoffman2 R Tutorial/ Cluster Computing
 
-## What is it?
-
-A computer cluster is a set of connected computers (nodes) that work together under one system. Each node will have its own instance of an operating system and hardware. Clusters are used for high-performace distributed computing tasks. They are ideal for multilevel simulations and large-scale computations. 
-
-The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of memory. It consists of login nodes and compute nodes. Login nodes are where you can organize data (install packages, arrange data) and submit jobs and compute nodes are where computer-intensive tasks are run. 
-
-![](pngs/cluster.png)
+## What is it and how to use
+For basic information on Hoffman2, including submitting jobs, resources available, transfering files, and other general information, refer to the general `README.md` file found at the [initial page of the github repo](https://github.com/chris-german/Hoffman2Tutorials).
 
 
-# Account Creation
-The first step you need to take is to create an account. 
 
-Register for an account at: [https://www.hoffman2.idre.ucla.edu/getting-started/#newuser](https://www.hoffman2.idre.ucla.edu/getting-started/#newuser)
-
-Once you register and your account gets approved, you’ll get an email with a link to see your temporary password that must be used within 4 weeks.
-
-# Logging In
-
-To login, go to terminal linux/unix and type:
-```{bash, eval=FALSE}
-ssh username@hoffman2.idre.ucla.edu 
-```
-![](pngs/Hoffman2login.png){width=450px}
-
-
-and enter your password when prompted (Can also setup ssh keys so no password is required) [https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/](https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/).
-
-# Basic Commands
-To use Hoffman2, you have to use linux/unix commands to navigate. See Dr. Zhou's linux slides for more details.
-
-Some useful commands:
-
-  * make a directory: `mkdir dirname `  
-  * go to home directory: `cd`  
-  * go to a certain directory: `cd /path/ `  
-  * see current directory: `pwd`  
-  * remove a file: `rm filename`  
-  * remove a directory: `rm -r dirname`  
-  * see whats in current directory: `ls`  
-  * see whats in current directory (including hidden items): `ls -a`  
-  * see size of current directory: `du -h`  
-  * transfer files between cluster/local computer via ssh: `scp` (more on this later)  
   
 # Available Software
 
-Current software that you can use on Hoffman2 can be found using:
-```{bash, eval=F}
-module avail
-```
-![](pngs/Moduleavail.png){width=50%}
-
-(More than the ones shown are available... very long list).
-
-To see available modules that begin with a specific phrase, such as those that start with `R` type:
+There are several versions of R on the cluster, with more up-to-date ones being installed as they are released and requested. 
 ```{bash, eval=F}
 module avail R
 ```
@@ -82,9 +37,9 @@ module load R/3.5.1
 
 If you are going to need packages installed for your use on Hoffman2, load R using `R` and then install the packges. Note: This will be on the login node, where computing power is limited so you should not run any analyses on this node. Instead, you run analyses on a compute node. 
 
-## Accessing a compute node
+# Accessing a compute node
 
-# qsub
+## qsub
 
 For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (batch script).
 
@@ -98,7 +53,7 @@ To send this script to the scheduler to run on a compute node, you would simply 
 qsub submit.sh
 ```
 
-# qrsh
+## qrsh
 
 For some analyses, you may want to do things interactively instead of just submitting jobs. The `qrsh` command is for loading you onto an interactive compute node. 
 
@@ -117,6 +72,9 @@ qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 ```
 
 The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session. 
+
+## R.q
+In addition to submitting a shell script via`qsub`, for R, there is the command `R.q` that can be used to generate a shell `.sh` script for an `Rscript` file and submit the job. Simply upload a `.R` file that you want to run on the cluster and type `R.q`. Follow the prompts and it will run the `.R` file with the apporpriate options you select.
 
 # Resource limitations
 The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
@@ -174,6 +132,7 @@ rstudio
 RStudio will launch in the application that you use for x11 forwarding and you can use it as you would RStudio on your own computer.
 
 ![](pngs/rstudio.png)
+# Simulation runs
 
 ## A single simulation run
 
@@ -228,49 +187,8 @@ ls *.txt
 ```
 
 
-## Transfering Files
-
-#scp
-
-`scp`, standing for secure copy paste, allows you to transfer files between an ssh server and your local computer. It's a useful command if you set up ssh keys so that you won't have to enter your password every time you want to transfer files.
-
-To use `scp`:
-
-  * go to directory you want to store things/send things in/from on local computer.
-  * To send a file from local to cluster :
-    + `scp filename.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
-  * To send multiple files from local to cluster
-    + `scp filename1.extension filename2.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
-  * To send a file from cluster to local
-    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/filename.extension .`
-  * To send multiple files from cluster to local 
-    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/{filename1.extension,filename2.extension} . `
-  * To send directory with all files from cluster to local
-    + `scp -r username@hoffman2.idre.ucla.edu:∼/directorytosend .`
-    
-    
-#Globus 
-
-Globus allows you to transfer files between your local computer and the cluster. 
-To use Globus you will have to go to [www.globus.com](www.globus.com) and login through UCLA by selecting your existing organizational login as UCLA. 
-
-Then you will need to download their Globus Connect Personal software, then set your laptop as an endpoint.
-
-Very detailed instructions can be found here [https://www.hoffman2.idre.ucla.edu/file-transfer/globus/](https://www.hoffman2.idre.ucla.edu/file-transfer/globus/)
-
-In short,login to globus, then under endpoints, select `Create new endpoint`.
-Select a Globus Personal connect, then enter a name. Generate an installation setup key, save it somewhere, and then download the client. 
-Once you launch the client, enter the setup key and you will have created an endpoint where you can transfer files to. 
-
-From there, you can login to [globus.com](globus.com) or launch Globus Connect Personal and click files transfer. There you can choose to transfer files between your machine and the cluster. To find the endpoint to transfer files to/from on the server, search "Hoffman2" in the Collection bar of the File Manager and select one of the official UCLA Hoffman2 Data Transfer Nodes.  
-
-![](pngs/Globus.png)
 
 
-
-## Additional Resources
-
-Office Hours: Dr. Raffaella D’Auria. Set up by sending an email (ticket) to hpc@ucla.edu
 
 
 
