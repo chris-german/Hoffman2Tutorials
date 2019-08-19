@@ -1,5 +1,6 @@
 ---
 title: "Hoffman2 R Tutorial"
+date:
 author: "Chris German, Hua Zhou"
 output:
   html_document:
