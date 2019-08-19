@@ -1,7 +1,7 @@
 
 # Hoffman2 / Cluster Computing Introduction and Tutorial 
 
-This notebook was created for `julia v1.1.0`. There is an `R` version available as well in this github repo. It goes over the basics of [UCLA Hoffman2](https://idre.ucla.edu/hoffman2).
+This tutorial was created for `julia v1.1.0`. There is an [R version](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) available as well in this github repo. It goes over details of Hoffman2 jobs specific to R as well as running similar simulations in `R`.
 
 At the time of running, this was run with the following specs:
 
@@ -20,79 +20,20 @@ versioninfo()
       LLVM: libLLVM-6.0.1 (ORCJIT, haswell)
 
 
-## What is it?
+# Hoffman2 Julia Tutorial
 
-A computer cluster is a set of connected computers (nodes) that work together under one system. Each node will have its own instance of an operating system and hardware. Clusters are used for high-performace distributed computing tasks. They are ideal for multilevel simulations and large-scale computations.
-
-The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of memory. It consists of login nodes and compute nodes. Login nodes are where you can organize data (install packages, arrange data) and submit jobs and compute nodes are where computer-intensive tasks are run.
-
-![cluster computing](pngs/cluster.png)
-
-# Account Creation
-The first step you need to take is to create an account.
-
-Register for an account at: https://www.hoffman2.idre.ucla.edu/getting-started/#newuser
-
-Once you register and your account gets approved, you’ll get an email with a link to see your temporary password that must be used within 4 weeks.
-
-# Logging in 
-
-To login, go to terminal linux/unix and type:
-
-```
-ssh username@hoffman2.idre.ucla.edu 
-
-```
-
-<img src="pngs/Hoffman2login.png" width="500">
-
-
-
-
-and enter your password when prompted (Can also setup ssh keys so no password is required) https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/.
-
-# Basic Commands
-To use Hoffman2, you have to use linux/unix commands to navigate. See Dr. Zhou's linux slides for more details.
-
-Some useful commands:
-
-  * make a directory: `mkdir dirname `  
-  * go to home directory: `cd`  
-  * go to a certain directory: `cd /path/ `  
-  * see current directory: `pwd`  
-  * remove a file: `rm filename`  
-  * remove a directory: `rm -r dirname`  
-  * see whats in current directory: `ls`  
-  * see whats in current directory (including hidden items): `ls -a`  
-  * see size of current directory: `du -h`  
-  * transfer files between cluster/local computer via ssh: `scp` (more on this later) 
-  * to go to directory containing the current directory: `cd ..`
-  
+## What is it and how to use
+For basic information on Hoffman2, including submitting jobs, resources available, transfering files, and other general information, refer to the general `README.md` file found at the [initial page of the github repo](https://github.com/chris-german/Hoffman2Tutorials).
 
 # Available Software
 
-Current software that you can use on Hoffman2 can be found using:
-```
-module avail
-
-
-
-```
-
-
-
-<img src="pngs/Moduleavail.png" width="500">
-
- 
-(More than the ones shown are available... it's a very long list).
-
-To see available modules that begin with a specific phrase, such as those that start with j type:
+There are several versions of Julia available on Hoffman2. To see the versions currently available, type:
 
 ``` 
-module avail j
+module avail julia
 ```
 
-<img src="pngs/modavailj.png" width="500">
+<img src="pngs/modavailjulia.png" width="700">
 
 # Loading Software
 To load a module, say `julia` version 1.1.0, for use type:
@@ -100,8 +41,7 @@ To load a module, say `julia` version 1.1.0, for use type:
 module load julia/1.1.0
 ```
 
-If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed later to do this. Computing power is limited on login nodes so you should not run any analyses on the login node.
-
+If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed in the general guide. Computing power is limited on login nodes so you should not run any analyses on the login node.
 
 # Accessing a compute node
 
@@ -167,6 +107,14 @@ For more advanced options you can use
 ```
    qrsh -help                                     
 ```
+
+Once the interactive session loads, you can use 
+
+```module load julia/1.1.0
+julia
+```
+
+to load `julia v1.1.0`.
 
 ## Resource limitations
 The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
@@ -367,63 +315,8 @@ cd(readdir, "simresults")
 
 
 
-# Transfering Files
-
-## scp
-
-`scp`, standing for secure copy paste, allows you to transfer files between an ssh server and your local computer. It's a useful command if you set up ssh keys so that you won't have to enter your password every time you want to transfer files.
-
-To use `scp`:
-
-  * go to directory you want to store things/send things in/from on local computer.
-  * To send a file from local to cluster :
-    + `scp filename.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
-  * To send multiple files from local to cluster
-    + `scp filename1.extension filename2.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
-  * To send a file from cluster to local
-    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/filename.extension .`
-  * To send multiple files from cluster to local 
-    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/{filename1.extension,filename2.extension} . `
-  * To send directory with all files from cluster to local
-    + `scp -r username@hoffman2.idre.ucla.edu:∼/directorytosend .`
-    
-    
-## Globus 
-
-Globus allows you to transfer files between your local computer and the cluster. 
-To use Globus you will have to go to [www.globus.com](www.globus.com) and login through UCLA by selecting your existing organizational login as UCLA. 
-
-Then you will need to download their Globus Connect Personal software, then set your laptop as an endpoint.
-
-Very detailed instructions can be found here [https://www.hoffman2.idre.ucla.edu/file-transfer/globus/](https://www.hoffman2.idre.ucla.edu/file-transfer/globus/)
-
-In short,login to globus, then under endpoints, select `Create new endpoint`.
-Select a Globus Personal connect, then enter a name. Generate an installation setup key, save it somewhere, and then download the client. 
-Once you launch the client, enter the setup key and you will have created an endpoint where you can transfer files to. 
-
-From there, you can login to [globus.com](globus.com) or launch Globus Connect Personal and click files transfer. There you can choose to transfer files between your machine and the cluster. To find the endpoint to transfer files to/from on the server, search "Hoffman2" in the Collection bar of the File Manager and select one of the official UCLA Hoffman2 Data Transfer Nodes.  
-
-![](pngs/Globus.png)
-
-# Canceling a job 
-
-To cancel a job that is running or in the queue `qdel` is the command, use `myjob` to determine the job ID 
-and then type:
-
-
-```
-qdel -u yourusername jobID
-
-```
-
-and the job will be canceled. To cancel all jobs simply leave `jobID` blank. 
-
 # Using Jupyter Notebook
 
 To use Jupyter Notebook interactively in Hoffman2, follow the instructions linked [here](https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/)
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use -- to use `julia v1.1.0`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
-
-# Additional Resources
-
-Office Hours: Dr. Raffaella D’Auria. Set up by sending an email (ticket) to hpc@ucla.edu

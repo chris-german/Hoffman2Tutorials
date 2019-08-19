@@ -214,7 +214,7 @@ R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt
 We can see the results have been written to the txt file.
 
 ```bash
-head n_100d_rnorm\(n\).txt 
+head simresults/n_100d_rnorm\(n\).txt 
 ```
 
 ```
@@ -333,25 +333,25 @@ myjob
 To check the output files generated after the jobs have run.
 
 ```bash
-ls *.txt
+ls simresults/*.txt
 ```
 
 ```
-## n_100d_rnorm(n).txt
-## n_100d_rt(n, 1).txt
-## n_100d_rt(n, 5).txt
-## n_200d_rnorm(n).txt
-## n_200d_rt(n, 1).txt
-## n_200d_rt(n, 5).txt
-## n_300d_rnorm(n).txt
-## n_300d_rt(n, 1).txt
-## n_300d_rt(n, 5).txt
-## n_400d_rnorm(n).txt
-## n_400d_rt(n, 1).txt
-## n_400d_rt(n, 5).txt
-## n_500d_rnorm(n).txt
-## n_500d_rt(n, 1).txt
-## n_500d_rt(n, 5).txt
+## simresults/n_100d_rnorm(n).txt
+## simresults/n_100d_rt(n, 1).txt
+## simresults/n_100d_rt(n, 5).txt
+## simresults/n_200d_rnorm(n).txt
+## simresults/n_200d_rt(n, 1).txt
+## simresults/n_200d_rt(n, 5).txt
+## simresults/n_300d_rnorm(n).txt
+## simresults/n_300d_rt(n, 1).txt
+## simresults/n_300d_rt(n, 5).txt
+## simresults/n_400d_rnorm(n).txt
+## simresults/n_400d_rt(n, 1).txt
+## simresults/n_400d_rt(n, 5).txt
+## simresults/n_500d_rnorm(n).txt
+## simresults/n_500d_rt(n, 1).txt
+## simresults/n_500d_rt(n, 5).txt
 ```
 
 
