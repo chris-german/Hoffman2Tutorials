@@ -72,8 +72,7 @@ To see available modules that begin with a specific phrase, such as those that s
 ``` 
 module avail julia
 ```  
-**Need to replace below screenshot**
-<img src="JuliaTutorial/pngs/modavailj.png" width="500">
+<img src="JuliaTutorial/pngs/modavailjulia.png" width="500">
 
 
 ## Loading Software
@@ -86,17 +85,56 @@ module load julia/1.1.0
 If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed later to do this. Computing power is limited on login nodes so you should not run any analyses on the login node.
 
 
-## Transfering files
+## Transfering Files
 
-**Move the section on transferring files here. Should mention that using Git/GitHub to synchronize source code between computers and platforms is the more productive and professional way.**
+## scp
+
+`scp`, standing for secure copy paste, allows you to transfer files between an ssh server and your local computer. It's a useful command if you set up ssh keys so that you won't have to enter your password every time you want to transfer files.
+
+To use `scp`:
+
+  * go to directory you want to store things/send things in/from on local computer.
+  * To send a file from local to cluster :
+    + `scp filename.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
+  * To send multiple files from local to cluster
+    + `scp filename1.extension filename2.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
+  * To send a file from cluster to local
+    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/filename.extension .`
+  * To send multiple files from cluster to local 
+    + `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/{filename1.extension,filename2.extension} . `
+  * To send directory with all files from cluster to local
+    + `scp -r username@hoffman2.idre.ucla.edu:∼/directorytosend .`
+    
+    
+## Globus 
+
+Globus allows you to transfer files between your local computer and the cluster. 
+To use Globus you will have to go to [www.globus.com](www.globus.com) and login through UCLA by selecting your existing organizational login as UCLA. 
+
+Then you will need to download their Globus Connect Personal software, then set your laptop as an endpoint.
+
+Very detailed instructions can be found here [https://www.hoffman2.idre.ucla.edu/file-transfer/globus/](https://www.hoffman2.idre.ucla.edu/file-transfer/globus/)
+
+In short,login to globus, then under endpoints, select `Create new endpoint`.
+Select a Globus Personal connect, then enter a name. Generate an installation setup key, save it somewhere, and then download the client. 
+Once you launch the client, enter the setup key and you will have created an endpoint where you can transfer files to. 
+
+From there, you can login to [globus.com](globus.com) or launch Globus Connect Personal and click files transfer. There you can choose to transfer files between your machine and the cluster. To find the endpoint to transfer files to/from on the server, search "Hoffman2" in the Collection bar of the File Manager and select one of the official UCLA Hoffman2 Data Transfer Nodes.  
+
+![](JuliaTutorial/pngs/Globus.png)
+
+## Github
+
+Hoffman2 has Git available and is a more productive and professional way to synchornize source code between computers and platforms. 
 
 ## Submit a batch job by `qsub`
 
 For most analyses/jobs, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script).
 
-Following (commented) sample script submits a Julia job. **Display the content of the script submit.sh directly**.  
+Following (commented) sample script submits a Julia job. 
 ```
-;cat submit.sh
+;cat JuliaTutorials/submit.sh
+```
 
     #!/bin/bash #sets bash up
     #$ -cwd #uses current working directory
@@ -117,7 +155,6 @@ Following (commented) sample script submits a Julia job. **Display the content o
     # run julia code
     echo 'Running runSim.jl for n = 500' #prints this quote to joblog.jobidnumber
     julia -e "n = 500;  include('runSim.jl')" > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
-```
 
 
 To send this script to the scheduler to run on a compute node, you would simply type:  
@@ -156,6 +193,36 @@ The maximum time for a session is 24 hours unless you're working in a group that
 Different compute nodes have different amounts of memory. There are fewer nodes with lots of memory, so the larger the amount of memory you're requesting the longer you will have to wait for the job to start running. If you request too much, the job may never run. 
 
 Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
+
+# Canceling a job 
+
+To cancel a job that is running or in the queue `qdel` is the command, use `myjob` to determine the job ID 
+and then type:
+
+
+```
+qdel -u yourusername jobID
+```
+
+and the job will be canceled. To cancel all jobs simply leave `jobID` blank. 
+
+# Using Jupyter Notebook
+
+To use Jupyter Notebook interactively in Hoffman2, follow the instructions linked [here](https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/)
+
+Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use -- to use `julia v1.1.0`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
+
+## Data Storage
+
+Users have access to three types of data storage on Hoffman2: group space, scratch space, and user home space. 
+
+- Group space is available if you are in a group that purchased space through Hoffman2. 
+
+- Scratch space allows you to store up to 1TB of data on the cluster, accessable by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for temporary storage only, and files are only guaranteed to stay on the space for 7 days. After, they are erased. 
+
+- User home space is 20GB of data. This is where you can store files permanently. 
+
+To check your storage usage and availability, use the command `myquota`. 
 
 
 ## Biostatistics Specific Nodes
@@ -228,6 +295,6 @@ Specific guides for submitting [Julia jobs](https://github.com/chris-german/Hoff
 
 * [Hoffman2 website](https://www.hoffman2.idre.ucla.edu/getting-started/) has various information on using the cluster.
 
-* Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped various biostatistics students and faculty with running their projects on Hoffman2. You can set up an appointment by sending an email (ticket) to <hpc@ucla.edu>. **Is there a link for submitting a ticket?**
+* Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped various biostatistics students and faculty with running their projects on Hoffman2. You can set up an appointment by sending an email (ticket) to <hpc@ucla.edu>. 
 
 * Dr. Hua Zhou's course *Biostat 203B: Introduction to Data Science* covers Linux basics, SSH keys, Git/GitHub, cluster computing using Hoffman2, and various other topics.

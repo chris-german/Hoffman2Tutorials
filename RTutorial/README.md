@@ -1,21 +1,22 @@
--   [Hoffman2 / Cluster Computing](#hoffman2-cluster-computing)
-    -   [What is it?](#what-is-it)
--   [Account Creation](#account-creation)
--   [Logging In](#logging-in)
--   [Basic Commands](#basic-commands)
--   [Available Software](#available-software)
--   [Loading Software](#loading-software)
-    -   [Accessing a compute node](#accessing-a-compute-node)
--   [qsub](#qsub)
--   [qrsh](#qrsh)
--   [Resource limitations](#resource-limitations)
-    -   [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
-    -   [A single simulation run](#a-single-simulation-run)
-    -   [Multiple simulation runs](#multiple-simulation-runs)
-    -   [Transfering Files](#transfering-files)
--   [scp](#scp)
--   [Globus](#globus)
-    -   [Additional Resources](#additional-resources)
+- [Hoffman2 / Cluster Computing](#hoffman2--cluster-computing)
+  - [What is it?](#what-is-it)
+- [Account Creation](#account-creation)
+- [Logging In](#logging-in)
+- [Basic Commands](#basic-commands)
+- [Available Software](#available-software)
+- [Loading Software](#loading-software)
+  - [Accessing a compute node](#accessing-a-compute-node)
+- [qsub](#qsub)
+- [qrsh](#qrsh)
+- [R.q](#rq)
+- [Resource limitations](#resource-limitations)
+  - [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
+  - [A single simulation run](#a-single-simulation-run)
+  - [Multiple simulation runs](#multiple-simulation-runs)
+  - [Transfering Files](#transfering-files)
+- [scp](#scp)
+- [Globus](#globus)
+  - [Additional Resources](#additional-resources)
 
 Hoffman2 / Cluster Computing
 ============================
@@ -161,6 +162,11 @@ qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 ```
 
 The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session.
+
+R.q
+====
+
+`R.q` can be used to generate a shell `.sh` script for an `Rscript` file and submit the job. Simply upload a `.R` file that you want to run on the cluster and type `R.q`. Follow the prompts and it will run the `.R` file with the apporpriate options you select.
 
 Resource limitations
 ====================
