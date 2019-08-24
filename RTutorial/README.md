@@ -1,13 +1,17 @@
--   [Available R Versions](#available-r-versions)
--   [Loading Software](#loading-software)
--   [Accessing a compute node](#accessing-a-compute-node)
-    -   [qsub](#qsub)
-    -   [qrsh](#qrsh)
-    -   [R.q](#r.q)
--   [Resource limitations](#resource-limitations)
--   [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
--   [A single simulation run](#a-single-simulation-run)
--   [Multiple simulation runs](#multiple-simulation-runs)
+-   [Hoffman2 R Tutorial](#hoffman2-r-tutorial)
+    -   [Available R Versions](#available-r-versions)
+    -   [Loading Software](#loading-software)
+    -   [Accessing a compute node](#accessing-a-compute-node)
+        -   [qsub](#qsub)
+        -   [qrsh](#qrsh)
+        -   [R.q](#r.q)
+    -   [Resource limitations](#resource-limitations)
+    -   [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
+    -   [A single simulation run](#a-single-simulation-run)
+    -   [Multiple simulation runs](#multiple-simulation-runs)
+
+Hoffman2 R Tutorial
+===================
 
 For basic information on Hoffman2, including submitting jobs, check job
 status, resources available, transfering files, and other general
@@ -15,7 +19,7 @@ information, refer to the general guide
 <a href="https://github.com/chris-german/Hoffman2Tutorials" class="uri">https://github.com/chris-german/Hoffman2Tutorials</a>.
 
 Available R Versions
-====================
+--------------------
 
 There are several versions of R on the cluster, with more up-to-date
 ones being installed as they are released and requested.
@@ -25,7 +29,7 @@ ones being installed as they are released and requested.
 <img src="pngs/ModuleavailR.png" style="width:70.0%" />
 
 Loading Software
-================
+----------------
 
 To load a module, say R version 3.5.1, for use type:
 
@@ -37,10 +41,9 @@ login node, where computing power is limited so you should not run any
 analyses on this node. Instead, you run analyses on a compute node.
 
 Accessing a compute node
-========================
+------------------------
 
-qsub
-----
+### qsub
 
 For most analyses/jobs you’d like to run on Hoffman2, you should use the
 `qsub` command. This submits a batch job to the queue (scheduler). The
@@ -73,8 +76,7 @@ simply type:
 
     qsub submit.sh
 
-qrsh
-----
+### qrsh
 
 For some analyses, you may want to do things interactively instead of
 just submitting jobs. The `qrsh` command is for loading you onto an
@@ -102,8 +104,7 @@ The more time and memory you request, the longer you will have to wait
 for an interactive compute node to become available to you. It’s normal
 to wait a few minutes to get an interactive session.
 
-R.q
----
+### R.q
 
 In addition to submitting a shell script via`qsub`, for R, there is the
 command `R.q` that can be used to generate a shell `.sh` script for an
@@ -112,7 +113,7 @@ want to run on the cluster and type `R.q`. Follow the prompts and it
 will run the `.R` file with the apporpriate options you select.
 
 Resource limitations
-====================
+--------------------
 
 The maximum time for a session is 24 hours unless you’re working in a
 group that owns their compute nodes. So do not have an `h_rt` value
@@ -127,7 +128,7 @@ Requesting more than 4 cores for an interactive session can possibly
 take a long time for the interactive session to start.
 
 Using RStudio on Hoffman2
-=========================
+-------------------------
 
 To use RStudio on Hoffman2, you must launch an interactive session via
 `qrsh` and then load the R studio module. Then you type `rstudio` and
@@ -180,10 +181,10 @@ Then to access RStudio run the following:
 RStudio will launch in the application that you use for x11 forwarding
 and you can use it as you would RStudio on your own computer.
 
-![](pngs/rstudio.png) \# Simulation runs
+![](pngs/rstudio.png)
 
 A single simulation run
-=======================
+-----------------------
 
 The sample R script [`runSim.R`](./runSim.R) runs a simulation study to
 compare two methods for estimating mean: `est_mean_prime` and
@@ -254,7 +255,7 @@ If you experience an error, you can take a look at the `output.####`
 file that was generated. This files indicates any output generated in R.
 
 Multiple simulation runs
-========================
+------------------------
 
 In a typical simulation study, we vary the values of different
 simulation factors such as sample size, generative model, effect size,

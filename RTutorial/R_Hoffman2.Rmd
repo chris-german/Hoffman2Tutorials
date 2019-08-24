@@ -1,6 +1,6 @@
 ---
 title: "Hoffman2 R Tutorial"
-author: "Chris German, Hua Zhou"
+author: "Chris German and Hua Zhou"
 output:
   md_document:
     toc: true
@@ -8,6 +8,7 @@ output:
 knit: (
   function(inputFile, encoding) { 
     pSubTitle <- 'README'
+    
     rmarkdown::render( 
       input       = inputFile, 
       encoding    = encoding, 
@@ -19,9 +20,11 @@ knit: (
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Hoffman2 R Tutorial
+
 For basic information on Hoffman2, including submitting jobs, check job status, resources available, transfering files, and other general information, refer to the general guide <https://github.com/chris-german/Hoffman2Tutorials>.
 
-# Available R Versions
+## Available R Versions
 
 There are several versions of R on the cluster, with more up-to-date ones being installed as they are released and requested. 
 ```{bash, eval=F}
@@ -30,7 +33,7 @@ module avail R
 ![](pngs/ModuleavailR.png){width=70%}
 
 
-# Loading Software
+## Loading Software
 
 To load a module, say R version 3.5.1, for use type:
 ```{bash, eval=F}
@@ -39,9 +42,9 @@ module load R/3.5.1
 
 If you are going to need packages installed for your use on Hoffman2, load R using `R` and then install the packges. Note: This will be on the login node, where computing power is limited so you should not run any analyses on this node. Instead, you run analyses on a compute node. 
 
-# Accessing a compute node
+## Accessing a compute node
 
-## qsub
+### qsub
 
 For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (batch script).
 
@@ -53,7 +56,7 @@ To send this script to the scheduler to run on a compute node, you would simply 
 qsub submit.sh
 ```
 
-## qrsh
+### qrsh
 
 For some analyses, you may want to do things interactively instead of just submitting jobs. The `qrsh` command is for loading you onto an interactive compute node. 
 
@@ -73,11 +76,11 @@ qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 
 The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session. 
 
-## R.q
+### R.q
 
 In addition to submitting a shell script via`qsub`, for R, there is the command `R.q` that can be used to generate a shell `.sh` script for an `Rscript` file and submit the job. Simply upload a `.R` file that you want to run on the cluster and type `R.q`. Follow the prompts and it will run the `.R` file with the apporpriate options you select.
 
-# Resource limitations
+## Resource limitations
 
 The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
 
@@ -85,7 +88,7 @@ Different compute nodes have different amounts of memory. There are fewer nodes 
 
 Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
 
-# Using RStudio on Hoffman2
+## Using RStudio on Hoffman2
 
 To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link <https://www.hoffman2.idre.ucla.edu/access/x11_forwarding>. On a Mac, you will need to install XQuartz, run 
 ```{bash, eval = FALSE}
@@ -133,9 +136,8 @@ rstudio
 RStudio will launch in the application that you use for x11 forwarding and you can use it as you would RStudio on your own computer.
 
 ![](pngs/rstudio.png)
-# Simulation runs
 
-# A single simulation run
+## A single simulation run
 
 The sample R script [`runSim.R`](./runSim.R) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` `reps`, `ofile` are to be defined by the user. `oFile` is the file to save the simulation results.
 ```{bash}
@@ -158,7 +160,7 @@ head simresults/n_100d_rnorm\(n\).txt
 ```
 If you experience an error, you can take a look at the `output.####` file that was generated. This files indicates any output generated in R. 
 
-# Multiple simulation runs
+## Multiple simulation runs
 
 In a typical simulation study, we vary the values of different simulation factors such as sample size, generative model, effect size, and so on. We can write another R script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
 
