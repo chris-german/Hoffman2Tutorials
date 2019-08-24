@@ -2,25 +2,26 @@
 title: "Hoffman2 R Tutorial"
 author: "Chris German, Hua Zhou"
 output:
-  html_document:
-    keep_md: true
+  md_document:
     toc: true
     toc_depth: 4
+knit: (
+  function(inputFile, encoding) { 
+    pSubTitle <- 'README'
+    rmarkdown::render( 
+      input       = inputFile, 
+      encoding    = encoding, 
+      params      = list(sub_title = pSubTitle),      
+      output_file = pSubTitle) })    
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Hoffman2 R Tutorial/ Cluster Computing
+For basic information on Hoffman2, including submitting jobs, check job status, resources available, transfering files, and other general information, refer to the general guide <https://github.com/chris-german/Hoffman2Tutorials>.
 
-## What is it and how to use
-For basic information on Hoffman2, including submitting jobs, resources available, transfering files, and other general information, refer to the general `README.md` file found at the [initial page of the github repo](https://github.com/chris-german/Hoffman2Tutorials).
-
-
-
-  
-# Available Software
+# Available R Versions
 
 There are several versions of R on the cluster, with more up-to-date ones being installed as they are released and requested. 
 ```{bash, eval=F}
@@ -30,6 +31,7 @@ module avail R
 
 
 # Loading Software
+
 To load a module, say R version 3.5.1, for use type:
 ```{bash, eval=F}
 module load R/3.5.1
@@ -46,9 +48,7 @@ For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` 
 ```{bash}
 cat submit.sh
 ```
-
 To send this script to the scheduler to run on a compute node, you would simply type:
-
 ```{bash, eval = F}
 qsub submit.sh
 ```
@@ -74,22 +74,24 @@ qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session. 
 
 ## R.q
+
 In addition to submitting a shell script via`qsub`, for R, there is the command `R.q` that can be used to generate a shell `.sh` script for an `Rscript` file and submit the job. Simply upload a `.R` file that you want to run on the cluster and type `R.q`. Follow the prompts and it will run the `.R` file with the apporpriate options you select.
 
 # Resource limitations
+
 The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
 
 Different compute nodes have different amounts of memory. There are fewer nodes with lots of memory, so the larger the amount of memory you're requesting the longer you will have to wait for the job to start running. If you request too much, the job may never run. 
 
 Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
 
-## Using RStudio on Hoffman2
+# Using RStudio on Hoffman2
 
-To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link [https://www.hoffman2.idre.ucla.edu/access/x11_forwarding](https://www.hoffman2.idre.ucla.edu/access/x11_forwarding). On a Mac, you will need to install XQuartz, run 
+To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link <https://www.hoffman2.idre.ucla.edu/access/x11_forwarding>. On a Mac, you will need to install XQuartz, run 
 ```{bash, eval = FALSE}
 defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
 ```
-and when logging into Hoffman2, type:
+in terminal and when logging into Hoffman2, type:
 ```{bash, eval = FALSE}
 ssh -Y username@hoffman2.idre.ucla.edu
 ```
@@ -99,7 +101,7 @@ If you get the warning message:
 
 You will need to setup a config file in your local machine's /.ssh/ path that specifies ForwardX11 yes.
 On a Mac, you may also need to specify the XAuth location, for my computer I created the config file and added the following lines.  
-
+```
 Host hoffman2  
 Hostname=hoffman2.idre.ucla.edu  
 User=username  
@@ -107,7 +109,7 @@ XAuthLocation /opt/X11/bin/xauth
 ForwardAgent yes  
 ForwardX11 yes  
 ForwardX11Trusted yes  
-
+```
 This can be done on a mac via
 
 ```{bash, eval=FALSE}
@@ -116,7 +118,6 @@ nano ~/.ssh/config
 Then typing the lines above, and pressing `control + O` to save then `enter` to save the name and then `control + X` to exit.
 
 This sets up forwarding and also allows you to access the cluster as `username` by simply typing 
-
 ```{bash, eval=FALSE}
 ssh hoffman2
 ```
@@ -134,9 +135,9 @@ RStudio will launch in the application that you use for x11 forwarding and you c
 ![](pngs/rstudio.png)
 # Simulation runs
 
-## A single simulation run
+# A single simulation run
 
-The `runSim.R` runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `oFile`. 
+The sample R script [`runSim.R`](./runSim.R) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` `reps`, `ofile` are to be defined by the user. `oFile` is the file to save the simulation results.
 ```{bash}
 cat runSim.R
 ```
@@ -144,21 +145,24 @@ cat runSim.R
 To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`, and `oFile`. For example,
 ```{bash, eval=FALSE}
 module load R/3.5.1
-R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"
+R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'simresults/n_100d_rnorm(n).txt'; source('runSim.R')"
+```
+But remember we should not run this job on the login node. We submit it to a compute node using the script [`submit.sh`](./submit.sh)
+```{bash, eval=F}
+qsub submit.sh
 ```
 
-We can see the results have been written to the txt file.
+After the job is done, we can examine that the results have been written to the txt file.
 ```{bash}
 head simresults/n_100d_rnorm\(n\).txt 
 ```
+If you experience an error, you can take a look at the `output.####` file that was generated. This files indicates any output generated in R. 
 
-If you experience an error, you can take a look at the output.#### file that was generated. This files indicates any output generated in R. 
+# Multiple simulation runs
 
-## Multiple simulation runs
+In a typical simulation study, we vary the values of different simulation factors such as sample size, generative model, effect size, and so on. We can write another R script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
 
-In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write another R script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
-
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In `ClusterSim.R`, we loop over n = 100, 200, ..., 500 and generative models standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom and submit the jobs by building the file with each scenario to submit and using `qsub`. 
+On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In `ClusterSim.R`, we loop over sample sizes `n` (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom), and for each scenario build a script `tmp.sh` to submit using `qsub`.
 ```{bash}
 cat ClusterSim.R
 ```
@@ -170,7 +174,7 @@ Rscript ClusterSim.R
 ![](pngs/Rscriptcluster.png){width=35%}
 
 
-The generated `tmp.sh` file will read like this with different sample size and distributions created:
+The generated `tmp.sh` file for a specific scenario will read like this with different sample size and distributions created:
 ```{bash}
 cat tmp.sh
 ```
@@ -185,10 +189,3 @@ To check the output files generated after the jobs have run.
 ```{bash}
 ls simresults/*.txt
 ```
-
-
-
-
-
-
-

@@ -18,8 +18,8 @@ estMeanPrimes = function (x) {
 
 # Simulate `reps` replicates of sample size `n` from distribution `d` using seed `s`
 simres = data.frame(est_mean_avg = double(reps), est_mean_prime = double(reps))
+set.seed(s)
 for (r in 1:reps){
-  set.seed(s)
   x = eval(parse(text = d))
   simres[r, 1] = mean(x)
   simres[r, 2] = estMeanPrimes(x)

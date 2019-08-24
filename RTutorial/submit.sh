@@ -16,4 +16,4 @@ module load R/3.5.1 #loads R/3.5.1 for use
 
 # run R code
 echo 'Running runSim.R for n = 500' #prints this quote to joblog.jobidnumber
-R -e "n = 500;  source('runSim.R')" > output.$JOB_ID 2>&1 #runs R code in quotes and outputs any text to output.jobid
+R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')" > output.$JOB_ID 2>&1 #runs R code in quotes and outputs any text to output.jobid
