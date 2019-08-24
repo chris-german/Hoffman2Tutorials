@@ -3,7 +3,8 @@ title: "Hoffman2 Tutorials for Biostatisticians"
 author: "Chris German and Hua Zhou"
 date: "8/24/2019"
 output:
-  md_document:
+  html_document:
+    keep_md: true
     toc: true
     toc_depth: 4
 ---
