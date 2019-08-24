@@ -11,3 +11,4 @@ deps/deps.jl
 .ipynb_checkpoints/
 joblog*
 output*
+.Rproj.user
