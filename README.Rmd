@@ -1,10 +1,9 @@
 ---
 title: "Hoffman2 Tutorials for Biostatisticians"
 author: "Chris German and Hua Zhou"
-date: "8/24/2019"
+date: "8/25/2019"
 output:
-  html_document:
-    keep_md: true
+  md_document:
     toc: true
     toc_depth: 4
 ---
@@ -12,6 +11,8 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Hoffman2 Tutorials for Biostatisticians
 
 This is a guide for using UCLA IDRE's Hoffman2 cluster computing system. There are guides for running jobs specific to [R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) and [Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial), as well as general guides for commands and what is available for users. 
 
