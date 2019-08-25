@@ -8,7 +8,7 @@
     -   [Resource limitations](#resource-limitations)
     -   [A single simulation run](#a-single-simulation-run)
     -   [Multiple simulation runs](#multiple-simulation-runs)
--   [Using Jupyter Notebook](#using-jupyter-notebook)
+    -   [Using Jupyter Notebook](#using-jupyter-notebook)
 
 Hoffman2 Julia Tutorial
 =======================
@@ -79,7 +79,7 @@ type of file you `qsub` has to have a specific format (shell script).
     ## 
     ## # run julia code
     ## echo 'Running runSim.jl for n = 500' #prints this quote to joblog.jobidnumber
-    ## julia -e "n = 500;  include('runSim.jl')" > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
+    ## julia -e 'using Distributions; n = 100; d = Normal(); reps = 100; s = 123; include("runSim.jl")' > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
 
 To send this script to the scheduler to run on a compute node, you would
 simply type:
@@ -202,7 +202,7 @@ To run this simulation from command line, user needs to pass values for
 `n`, `d`, `s`, `reps`. For example,
 
     module load julia/1.1.0
-    julia -e 'using Distributions; n = 100; d = Normal(); reps = 100; s = 123; include("runSim.jl")'
+    julia -e 'using Distributions; n, d, reps, s = 100, Normal(), 100, 123; include("runSim.jl")'
 
 We can see the results have been written to the txt file.
 
@@ -306,8 +306,24 @@ To check the output files generated after the jobs have run:
 
     ls simresults/*.txt
 
+    ## simresults/n_100_reps_100_dist_Normal{Float64}(μ=0.0, σ=1.0).txt
+    ## simresults/n_100_reps_100_dist_TDist{Float64}(ν=1.0).txt
+    ## simresults/n_100_reps_100_dist_TDist{Float64}(ν=5.0).txt
+    ## simresults/n_200_reps_100_dist_Normal{Float64}(μ=0.0, σ=1.0).txt
+    ## simresults/n_200_reps_100_dist_TDist{Float64}(ν=1.0).txt
+    ## simresults/n_200_reps_100_dist_TDist{Float64}(ν=5.0).txt
+    ## simresults/n_300_reps_100_dist_Normal{Float64}(μ=0.0, σ=1.0).txt
+    ## simresults/n_300_reps_100_dist_TDist{Float64}(ν=1.0).txt
+    ## simresults/n_300_reps_100_dist_TDist{Float64}(ν=5.0).txt
+    ## simresults/n_400_reps_100_dist_Normal{Float64}(μ=0.0, σ=1.0).txt
+    ## simresults/n_400_reps_100_dist_TDist{Float64}(ν=1.0).txt
+    ## simresults/n_400_reps_100_dist_TDist{Float64}(ν=5.0).txt
+    ## simresults/n_500_reps_100_dist_Normal{Float64}(μ=0.0, σ=1.0).txt
+    ## simresults/n_500_reps_100_dist_TDist{Float64}(ν=1.0).txt
+    ## simresults/n_500_reps_100_dist_TDist{Float64}(ν=5.0).txt
+
 Using Jupyter Notebook
-======================
+----------------------
 
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions linked

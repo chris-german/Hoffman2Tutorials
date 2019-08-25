@@ -2,7 +2,7 @@
 title: "Hoffman2 Julia Tutorial"
 author: "Chris German and Hua Zhou"
 output:
-  html_document:
+  md_document:
     toc: true
     toc_depth: 4
 knit: (
