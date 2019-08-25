@@ -9,7 +9,7 @@
     -   [Transfering Files](#transfering-files)
         -   [scp](#scp)
         -   [Globus](#globus)
-        -   [Git](#git)
+        -   [Git and Svn](#git-and-svn)
     -   [Submit a batch job by `qsub`](#submit-a-batch-job-by-qsub)
     -   [Interactive session by `qrsh`](#interactive-session-by-qrsh)
     -   [Resource limitations](#resource-limitations)
@@ -32,8 +32,18 @@ and
 [Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial),
 as well as general guides for commands and what is available for users.
 
+To try out the sample code in the tutorial, simply issue
+
+    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+
+on Hoffman2 to clone this repository.
+
 This document is mainly compiled by Chris German and Hua Zhou, with
-valuable input from Alec Chan-Goldston and Lu Zhang.
+valuable input from Alec Chan-Goldston and Lu Zhang. If you want to
+contribute to this tutorial, work on the RMarkdown files `README.Rmd`,
+`RTutorial/R_Hoffman2.Rmd`, and `JuliaTutorial/Julia_Hoffman2.Rmd`,
+which can be knitted into the corresponding `README.md` files, and make
+pull requests.
 
 What is Hoffman2
 ----------------
@@ -61,10 +71,9 @@ Register for an account at
 For faculty sponsor, you can choose your advisor if (s)he is on the
 list. If you do not have an advisor yet or (s)he is not on list, you can
 choose `Hua Zhou` or `Sudipto Banerjee`. The faculty sponsor will
-receive an email after you submit the registration form.
-
-Once your account gets approved, you’ll get an email with a link to see
-your temporary password that must be used within 4 weeks.
+receive an email after you submit the registration form. Once your
+account gets approved, you’ll get an email with a link to see your
+temporary password that must be used within 4 weeks.
 
 Logging in
 ----------
@@ -195,10 +204,10 @@ UCLA Hoffman2 Data Transfer Nodes.
 
 ![](JuliaTutorial/pngs/Globus.png)
 
-### Git
+### Git and Svn
 
-Hoffman2 has Git available, which offers a more productive and
-professional way to synchornize source code between computers and
+Hoffman2 has Git and svn available, which offer a more productive and
+reproducible way to synchornize source code between computers and
 platforms.
 
 Submit a batch job by `qsub`
@@ -206,12 +215,11 @@ Submit a batch job by `qsub`
 
 For most analyses/jobs, you should use the `qsub` command. This submits
 a batch job to the queue (scheduler). The type of file you `qsub` has to
-have a specific format (shell script).
+have a specific format (shell script). For example, following sample
+script [`submit.sh`](./RTutorial/submit.sh), with line-by-line comment,
+submits an R job.
 
-Following (commented) [sample script](./JuliaTutorial/submit.sh) submits
-a Julia job.
-
-    cat JuliaTutorial/submit.sh
+    cat RTutorial/submit.sh
 
     ## #!/bin/bash #sets bash up
     ## #$ -cwd #uses current working directory
@@ -227,11 +235,11 @@ a Julia job.
     ## 
     ## # load the job environment:
     ## . /u/local/Modules/default/init/modules.sh
-    ## module load julia/1.1.0 #loads julia/1.1.0 for use 
+    ## module load R/3.5.1 #loads R/3.5.1 for use 
     ## 
-    ## # run julia code
-    ## echo 'Running runSim.jl for n = 500' #prints this quote to joblog.jobidnumber
-    ## julia -e "n = 500;  include('runSim.jl')" > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
+    ## # run R code
+    ## echo 'Running runSim.R for n = 500' #prints this quote to joblog.jobidnumber
+    ## R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')" > output.$JOB_ID 2>&1 #runs R code in quotes and outputs any text to output.jobid
 
 To send this script to the scheduler to run on a compute node, you would
 simply type:

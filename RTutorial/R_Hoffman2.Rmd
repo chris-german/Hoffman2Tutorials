@@ -47,7 +47,6 @@ If you are going to need packages installed for your use on Hoffman2, load R usi
 ### qsub
 
 For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (batch script).
-
 ```{bash}
 cat submit.sh
 ```
@@ -68,12 +67,10 @@ qrsh -l h_rt=4:00:00,h_data=4G
 ```
 
 This will request a four hour session where the maximum physical memory is 4GB. 
-
 If you'd like to use more than one CPU core for your job, add `-pe shared #` to the end. Note, the amount of memory requested will be for each core. For example, if you'd like to request 4 CPU cores, each with 2GB of memory for a total of 8GB for 5 hours, run:
 ```{bash, eval = FALSE}
 qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 ```
-
 The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session. 
 
 ### R.q
@@ -164,7 +161,7 @@ If you experience an error, you can take a look at the `output.####` file that w
 
 In a typical simulation study, we vary the values of different simulation factors such as sample size, generative model, effect size, and so on. We can write another R script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
 
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In `ClusterSim.R`, we loop over sample sizes `n` (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom), and for each scenario build a script `tmp.sh` to submit using `qsub`.
+On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`ClusterSim.R`](./ClusterSim.R), we loop over sample sizes `n` (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom), and for each scenario build a script `tmp.sh` to submit using `qsub`.
 ```{bash}
 cat ClusterSim.R
 ```

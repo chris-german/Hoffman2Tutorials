@@ -51,7 +51,6 @@ If you are going to need packages installed for your use on Hoffman2, load julia
 ### qsub
 
 For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script).
-
 ```{bash}
 cat submit.sh
 ```
@@ -103,8 +102,7 @@ Requesting more than 4 cores for an interactive session can possibly take a long
 
 ## A single simulation run
 
-The `runSim.jl` runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
-
+The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
 ```{bash}
 cat runSim.jl
 ```
@@ -131,7 +129,7 @@ qsub submit.sh
 
 In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
 
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In `ClusterSim.jl`, we loop over sample sizes n (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs by building the file with each scenario to submit and using `qsub`. 
+On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`clusterSim.jl`](./clusterSim.jl), we loop over sample sizes n (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs by building the file with each scenario to submit and using `qsub`. 
 
 ```{bash}
 cat ClusterSim.jl
@@ -139,7 +137,7 @@ cat ClusterSim.jl
 
 So on the cluster we just need to run the following on an interactive compute node
 ```{bash,eval=F}
-julia ClusterSim.R
+julia ClusterSim.jl
 ```
 <img src="pngs/juliasims.png" width="500">
 
@@ -150,7 +148,7 @@ cat tmp.sh
 ```
 
 You can check on the state of your current jobs by running:
-```{bash, eval=FALSE}
+```{bash,eval=FALSE}
 myjob
 ```
 <img src="pngs/myjob.png" width="800">

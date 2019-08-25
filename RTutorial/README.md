@@ -91,9 +91,7 @@ To request more, you can use the commmand
     qrsh -l h_rt=4:00:00,h_data=4G
 
 This will request a four hour session where the maximum physical memory
-is 4GB.
-
-If you’d like to use more than one CPU core for your job, add
+is 4GB. If you’d like to use more than one CPU core for your job, add
 `-pe shared #` to the end. Note, the amount of memory requested will be
 for each core. For example, if you’d like to request 4 CPU cores, each
 with 2GB of memory for a total of 8GB for 5 hours, run:
@@ -265,11 +263,11 @@ simulation tasks.
 
 On a cluster, each simulation needs to be submitted separately (spread
 across different compute nodes). The syntax depends on the scheduling
-system. On UCLA’s Hoffman2 cluster, `qsub` is used. In `ClusterSim.R`,
-we loop over sample sizes `n` (100, 200, …, 500) and generative models
-(standard normal, T distribution with 5 degree of freedom, and T
-distribution with 1 degree of freedom), and for each scenario build a
-script `tmp.sh` to submit using `qsub`.
+system. On UCLA’s Hoffman2 cluster, `qsub` is used. In
+[`ClusterSim.R`](./ClusterSim.R), we loop over sample sizes `n` (100,
+200, …, 500) and generative models (standard normal, T distribution with
+5 degree of freedom, and T distribution with 1 degree of freedom), and
+for each scenario build a script `tmp.sh` to submit using `qsub`.
 
     cat ClusterSim.R
 

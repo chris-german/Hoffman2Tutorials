@@ -16,7 +16,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is a guide for using UCLA IDRE's Hoffman2 cluster computing system. There are guides for running jobs specific to [R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) and [Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial), as well as general guides for commands and what is available for users. 
 
-This document is mainly compiled by Chris German and Hua Zhou, with valuable input from Alec Chan-Goldston and Lu Zhang.
+To try out the sample code in the tutorial, simply issue 
+```{bash,eval=F}
+git clone https://github.com/chris-german/Hoffman2Tutorials.git
+```
+on Hoffman2 to clone this repository.
+
+This document is mainly compiled by Chris German and Hua Zhou, with valuable input from Alec Chan-Goldston and Lu Zhang. If you want to contribute to this tutorial, work on the RMarkdown files `README.Rmd`, `RTutorial/R_Hoffman2.Rmd`, and `JuliaTutorial/Julia_Hoffman2.Rmd`, which can be knitted into the corresponding `README.md` files, and make pull requests.
 
 ## What is Hoffman2
 
@@ -30,9 +36,7 @@ The first step is to create an account.
 
 Register for an account at <https://www.hoffman2.idre.ucla.edu/getting-started/#newuser>.
 
-For faculty sponsor, you can choose your advisor if (s)he is on the list. If you do not have an advisor yet or (s)he is not on list, you can choose `Hua Zhou` or `Sudipto Banerjee`. The faculty sponsor will receive an email after you submit the registration form. 
-
-Once your account gets approved, you’ll get an email with a link to see your temporary password that must be used within 4 weeks.
+For faculty sponsor, you can choose your advisor if (s)he is on the list. If you do not have an advisor yet or (s)he is not on list, you can choose `Hua Zhou` or `Sudipto Banerjee`. The faculty sponsor will receive an email after you submit the registration form. Once your account gets approved, you’ll get an email with a link to see your temporary password that must be used within 4 weeks.
 
 ## Logging in 
 
@@ -128,17 +132,15 @@ From there, you can login to [globus.com](globus.com) or launch Globus Connect P
 
 ![](JuliaTutorial/pngs/Globus.png)
 
-### Git
+### Git and Svn
 
-Hoffman2 has Git available, which offers a more productive and professional way to synchornize source code between computers and platforms. 
+Hoffman2 has Git and svn available, which offer a more productive and reproducible way to synchornize source code between computers and platforms. 
 
 ## Submit a batch job by `qsub`
 
-For most analyses/jobs, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script).
-
-Following (commented) [sample script](./JuliaTutorial/submit.sh) submits a Julia job. 
+For most analyses/jobs, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script). For example, following sample script [`submit.sh`](./RTutorial/submit.sh), with line-by-line comment, submits an R job. 
 ```{bash}
-cat JuliaTutorial/submit.sh
+cat RTutorial/submit.sh
 ```
 To send this script to the scheduler to run on a compute node, you would simply type:  
 ```{bash, eval=F}

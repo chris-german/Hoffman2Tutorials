@@ -143,13 +143,13 @@ take a long time for the interactive session to start.
 A single simulation run
 -----------------------
 
-The `runSim.jl` runs a simulation study to compare two methods for
-estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate,
-it generates a random vector of sample size `n`, from distribution `d`,
-and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s`
-and `reps` are to be defined by the user. `oFile` is the file to save
-the results under. Simulation results are written to a CSV file,
-`outfile`.
+The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two
+methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In
+each replicate, it generates a random vector of sample size `n`, from
+distribution `d`, and using seed `s`. There are `reps` replicates.
+Values of `n`, `d`, `s` and `reps` are to be defined by the user.
+`oFile` is the file to save the results under. Simulation results are
+written to a CSV file, `outfile`.
 
     cat runSim.jl
 
@@ -238,11 +238,12 @@ perform embarrasingly parallel simulation tasks.
 
 On a cluster, each simulation needs to be submitted separately (spread
 across different compute nodes). The syntax depends on the scheduling
-system. On UCLA’s Hoffman2 cluster, `qsub` is used. In `ClusterSim.jl`,
-we loop over sample sizes n (100, 200, …, 500) and generative models
-(standard normal, T distribution with 5 degree of freedom, and T
-distribution with 1 degree of freedom) and submit the jobs by building
-the file with each scenario to submit and using `qsub`.
+system. On UCLA’s Hoffman2 cluster, `qsub` is used. In
+[`clusterSim.jl`](./clusterSim.jl), we loop over sample sizes n (100,
+200, …, 500) and generative models (standard normal, T distribution with
+5 degree of freedom, and T distribution with 1 degree of freedom) and
+submit the jobs by building the file with each scenario to submit and
+using `qsub`.
 
     cat ClusterSim.jl
 
@@ -282,7 +283,7 @@ the file with each scenario to submit and using `qsub`.
 So on the cluster we just need to run the following on an interactive
 compute node
 
-    julia ClusterSim.R
+    julia ClusterSim.jl
 
 <img src="pngs/juliasims.png" width="500">
 
