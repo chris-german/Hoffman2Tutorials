@@ -16,4 +16,4 @@ module load julia/1.1.0 #loads julia/1.1.0 for use
 
 # run julia code
 echo 'Running runSim.jl for n = 500' #prints this quote to joblog.jobidnumber
-julia -e "n = 500;  include('runSim.jl')" > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
+julia -e 'using Distributions; n = 100; d = Normal(); reps = 100; s = 123; include("runSim.jl")' > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID

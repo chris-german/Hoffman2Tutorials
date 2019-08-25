@@ -32,8 +32,8 @@ end
 
 # Simulate `reps` replicates of sample size `n` from distribution `d` using seed `s`
 simres = zeros(reps, 2)
+Random.seed!(s)
 for r in 1:reps
-    Random.seed!(s)
     x = rand(d, n)
     simres[r, 1] = est_mean_avg(x)
     simres[r, 2] = est_mean_prime(x)

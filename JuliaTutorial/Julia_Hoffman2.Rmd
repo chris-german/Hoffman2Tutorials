@@ -1,0 +1,170 @@
+---
+title: "Hoffman2 Julia Tutorial"
+author: "Chris German and Hua Zhou"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+knit: (
+  function(inputFile, encoding) { 
+    pSubTitle <- 'README'
+    
+    rmarkdown::render( 
+      input       = inputFile, 
+      encoding    = encoding, 
+      params      = list(sub_title = pSubTitle),      
+      output_file = pSubTitle) })    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Hoffman2 Julia Tutorial
+
+This tutorial was created for `julia v1.1.0`. There is an [R version](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) available as well in this github repo. It goes over details of Hoffman2 jobs specific to R as well as running similar simulations in `R`.
+
+## What is it and how to use
+
+For basic information on Hoffman2, including submitting jobs, resources available, transfering files, and other general information, refer to the general `README.md` file found at the [initial page of the github repo](https://github.com/chris-german/Hoffman2Tutorials).
+
+## Available Julia Versions
+
+There are several versions of Julia available on Hoffman2. To see the versions currently available, type:
+```{bash,eval=F}
+module avail julia
+```
+
+<img src="pngs/modavailjulia.png" width="700">
+
+## Loading Julia
+
+To load a module, say `julia` version 1.1.0, for use type:
+```{bash,eval=F}
+module load julia/1.1.0
+```
+
+If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed in the general guide. Computing power is limited on login nodes so you should not run any analyses on the login node.
+
+## Accessing a compute node
+
+### qsub
+
+For most analyses/jobs you'd like to run on Hoffman2, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script).
+
+```{bash}
+cat submit.sh
+```
+
+To send this script to the scheduler to run on a compute node, you would simply type:
+```{bash,eval=F}
+qsub submit.sh
+```
+
+### qrsh
+
+For some analyses, you may want to do things interactively instead of just submitting jobs. The `qrsh` command is for loading you onto an interactive compute node. 
+
+Typing `qrsh` on the Hoffman2 login node will submit q request for an interactive session. By default, the session will run for two hours and the physical memory alotted will be 1GB.
+
+To request more, you can use the commmand
+```{bash,eval=F}
+qrsh -l h_rt=4:00:00,h_data=4G
+```
+
+This will request a four hour session where the maximum physical memory is 4GB.
+
+If you'd like to use more than one CPU core for your job, add `-pe shared #` to the end. Note, the amount of memory requested will be for each core. For example, if you'd like to request 4 CPU cores, each with 2GB of memory for a total of 8GB for 5 hours, run:
+```{bash,eval=F}
+qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
+```
+
+The more time and memory you request, the longer you will have to wait for an interactive compute node to become available to you. It's normal to wait a few minutes to get an interactive session. 
+
+For more advanced options you can use
+```{bash,eval=F}
+qrsh -help                                     
+```
+
+Once the interactive session loads, you can use 
+```{bash,eval=F}
+module load julia/1.1.0
+julia
+```
+to load `julia v1.1.0`.
+
+## Resource limitations
+
+The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
+
+Different compute nodes have different amounts of memory. There are fewer nodes with lots of memory, so the larger the amount of memory you're requesting the longer you will have to wait for the job to start running. If you request too much, the job may never run. 
+
+Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
+
+## A single simulation run
+
+The `runSim.jl` runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
+
+```{bash}
+cat runSim.jl
+```
+
+To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`. For example,
+```{bash,eval=F}
+module load julia/1.1.0
+julia -e 'using Distributions; n, d, reps, s = 100, Normal(), 100, 123; include("runSim.jl")'
+```
+
+We can see the results have been written to the txt file.
+```{bash}
+head simresults/n_100_reps_100_dist_Normal\{Float64\}\(μ\=0.0\,\ σ\=1.0\).txt 
+```
+
+If you experience an error, you can take a look at the output.#### file that was generated. This files indicates any output generated in julia. 
+
+Alternatively, as mentioned before. You can use a `.sh` script like the `submit.sh` and submit the job using 
+```{bash,eval=F}
+qsub submit.sh
+```
+
+## Multiple simulation runs
+
+In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
+
+On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In `ClusterSim.jl`, we loop over sample sizes n (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs by building the file with each scenario to submit and using `qsub`. 
+
+```{bash}
+cat ClusterSim.jl
+```
+
+So on the cluster we just need to run the following on an interactive compute node
+```{bash,eval=F}
+julia ClusterSim.R
+```
+<img src="pngs/juliasims.png" width="500">
+
+
+The generated `tmp.sh` file will read like this with different sample size and distributions created:
+```{bash,eval=F}
+cat tmp.sh
+```
+
+You can check on the state of your current jobs by running:
+```{bash, eval=FALSE}
+myjob
+```
+<img src="pngs/myjob.png" width="800">
+
+This command tells you the status of your job in the queue `qw` for queued and waiting, `r` for running. It also tells you the number of cores requested for the job, when the job was requested, and which nodes the job is running on.
+
+
+To check the output files generated after the jobs have run:
+```{bash}
+ls simresults/*.txt
+```
+
+## Using Jupyter Notebook
+
+To use Jupyter Notebook interactively in Hoffman2, follow the instructions linked [here](https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/)
+
+Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use -- to use `julia v1.1.0`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
