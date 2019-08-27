@@ -52,12 +52,11 @@ Upon login, you see a welcome message:
 
 Windows users can use PuTTY, MobaXterm, or Cygwin programs to establish SSH connection to Hoffman2. See <https://www.hoffman2.idre.ucla.edu/access/#Windows> for details.
 
-## Basic Commands
+## Basic Linux Commands
 
-To use Hoffman2, you have to use linux/unix commands to navigate.
+To use Hoffman2, which runs on CentOS 6 (a specific Linux distribution), you have to use linux/unix commands to navigate.
 
-Some most useful commands:
-
+Some most useful commands:  
   * make a directory: `mkdir dirname `  
   * go to home directory: `cd`  
   * go to a certain directory: `cd /path/ `  
@@ -70,7 +69,7 @@ Some most useful commands:
   * transfer files between cluster/local computer via ssh: `scp` (more on this later) 
   * to go to directory containing the current directory: `cd ..`
 
-You can learn more about Linux basics in Dr. Hua Zhou's *Biostat 203B: Introduction to Data Science* course.
+You can learn more about Linux in Dr. Hua Zhou's *Biostat 203B: Introduction to Data Science* course.
 
 ## Available Software
 
@@ -132,11 +131,15 @@ From there, you can login to [globus.com](globus.com) or launch Globus Connect P
 
 ![](JuliaTutorial/pngs/Globus.png)
 
-### Git and Svn
+### Git and SVN
 
 Hoffman2 has Git and svn available, which offer a more productive and reproducible way to synchornize source code between computers and platforms. 
 
-## Submit a batch job by `qsub`
+## Submit Jobs to Hoffman2
+
+Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage computing jobs on the cluster. See <https://www.hoffman2.idre.ucla.edu/computing/sge/> for some commonly used UGE commands or the more exhaustive [UGE User Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf). Following examples are more specific to biostatistical applications.
+
+### Submit a batch job by `qsub`
 
 For most analyses/jobs, you should use the `qsub` command. This submits a batch job to the queue (scheduler). The type of file you `qsub` has to have a specific format (shell script). For example, following sample script [`submit.sh`](./RTutorial/submit.sh), with line-by-line comment, submits an R job. 
 ```{bash}
@@ -148,7 +151,7 @@ qsub submit.sh
 ```  
 In the detailed [R](./RTutorial/README.md) and [Julia](./JuliaTutorial/README.md) tutorials, we demonstrate how to generate such scripts systematically in a typical simulation study and submit them to potentially many compute nodes.
 
-## Interactive session by `qrsh`
+### Interactive session by `qrsh`
 
 For some analyses, you may want to do things interactively instead of just submitting jobs. The `qrsh` command is for loading you onto an interactive compute node. 
 
@@ -169,7 +172,7 @@ For more advanced options you can use
 qrsh -help
 ```
 
-## Resource limitations
+### Resource limitations
 
 The maximum time for a session is 24 hours unless you're working in a group that owns their compute nodes. So do not have an `h_rt` value greated than `h_rt=24:00:00`.
 
@@ -177,7 +180,7 @@ Different compute nodes have different amounts of memory. There are fewer nodes 
 
 Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
 
-## Canceling a job 
+### Canceling a job 
 
 To cancel a job that is running or in the queue `qdel` is the command, use `myjob` to determine the job ID 
 and then type:

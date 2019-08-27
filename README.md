@@ -3,17 +3,19 @@
     -   [What is Hoffman2](#what-is-hoffman2)
     -   [Account Creation](#account-creation)
     -   [Logging in](#logging-in)
-    -   [Basic Commands](#basic-commands)
+    -   [Basic Linux Commands](#basic-linux-commands)
     -   [Available Software](#available-software)
     -   [Loading Software](#loading-software)
     -   [Transfering Files](#transfering-files)
         -   [scp](#scp)
         -   [Globus](#globus)
-        -   [Git and Svn](#git-and-svn)
-    -   [Submit a batch job by `qsub`](#submit-a-batch-job-by-qsub)
-    -   [Interactive session by `qrsh`](#interactive-session-by-qrsh)
-    -   [Resource limitations](#resource-limitations)
-    -   [Canceling a job](#canceling-a-job)
+        -   [Git and SVN](#git-and-svn)
+    -   [Submit Jobs to Hoffman2](#submit-jobs-to-hoffman2)
+        -   [Submit a batch job by `qsub`](#submit-a-batch-job-by-qsub)
+        -   [Interactive session by
+            `qrsh`](#interactive-session-by-qrsh)
+        -   [Resource limitations](#resource-limitations)
+        -   [Canceling a job](#canceling-a-job)
     -   [Using Jupyter Notebook](#using-jupyter-notebook)
     -   [Data Storage](#data-storage)
     -   [Biostatistics Specific Nodes](#biostatistics-specific-nodes)
@@ -95,27 +97,27 @@ SSH connection to Hoffman2. See
 <a href="https://www.hoffman2.idre.ucla.edu/access/#Windows" class="uri">https://www.hoffman2.idre.ucla.edu/access/#Windows</a>
 for details.
 
-Basic Commands
---------------
+Basic Linux Commands
+--------------------
 
-To use Hoffman2, you have to use linux/unix commands to navigate.
+To use Hoffman2, which runs on CentOS 6 (a specific Linux distribution),
+you have to use linux/unix commands to navigate.
 
-Some most useful commands:
+Some most useful commands:  
+\* make a directory: `mkdir dirname`  
+\* go to home directory: `cd`  
+\* go to a certain directory: `cd /path/`  
+\* see current directory: `pwd`  
+\* remove a file: `rm filename`  
+\* remove a directory: `rm -r dirname`  
+\* see whats in current directory: `ls`  
+\* see whats in current directory (including hidden items): `ls -a`  
+\* see size of current directory: `du -h`  
+\* transfer files between cluster/local computer via ssh: `scp` (more on
+this later) \* to go to directory containing the current directory:
+`cd ..`
 
--   make a directory: `mkdir dirname`  
--   go to home directory: `cd`  
--   go to a certain directory: `cd /path/`  
--   see current directory: `pwd`  
--   remove a file: `rm filename`  
--   remove a directory: `rm -r dirname`  
--   see whats in current directory: `ls`  
--   see whats in current directory (including hidden items): `ls -a`  
--   see size of current directory: `du -h`  
--   transfer files between cluster/local computer via ssh: `scp` (more
-    on this later)
--   to go to directory containing the current directory: `cd ..`
-
-You can learn more about Linux basics in Dr. Hua Zhou’s *Biostat 203B:
+You can learn more about Linux in Dr. Hua Zhou’s *Biostat 203B:
 Introduction to Data Science* course.
 
 Available Software
@@ -204,14 +206,23 @@ UCLA Hoffman2 Data Transfer Nodes.
 
 ![](JuliaTutorial/pngs/Globus.png)
 
-### Git and Svn
+### Git and SVN
 
 Hoffman2 has Git and svn available, which offer a more productive and
 reproducible way to synchornize source code between computers and
 platforms.
 
-Submit a batch job by `qsub`
-----------------------------
+Submit Jobs to Hoffman2
+-----------------------
+
+Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
+computing jobs on the cluster. See
+<a href="https://www.hoffman2.idre.ucla.edu/computing/sge/" class="uri">https://www.hoffman2.idre.ucla.edu/computing/sge/</a>
+for some commonly used UGE commands or the more exhaustive [UGE User
+Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
+Following examples are more specific to biostatistical applications.
+
+### Submit a batch job by `qsub`
 
 For most analyses/jobs, you should use the `qsub` command. This submits
 a batch job to the queue (scheduler). The type of file you `qsub` has to
@@ -251,8 +262,7 @@ In the detailed [R](./RTutorial/README.md) and
 generate such scripts systematically in a typical simulation study and
 submit them to potentially many compute nodes.
 
-Interactive session by `qrsh`
------------------------------
+### Interactive session by `qrsh`
 
 For some analyses, you may want to do things interactively instead of
 just submitting jobs. The `qrsh` command is for loading you onto an
@@ -282,8 +292,7 @@ For more advanced options you can use
 
     qrsh -help
 
-Resource limitations
---------------------
+### Resource limitations
 
 The maximum time for a session is 24 hours unless you’re working in a
 group that owns their compute nodes. So do not have an `h_rt` value
@@ -297,8 +306,7 @@ running. If you request too much, the job may never run.
 Requesting more than 4 cores for an interactive session can possibly
 take a long time for the interactive session to start.
 
-Canceling a job
----------------
+### Canceling a job
 
 To cancel a job that is running or in the queue `qdel` is the command,
 use `myjob` to determine the job ID and then type:
