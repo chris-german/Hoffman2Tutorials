@@ -27,7 +27,7 @@
 Hoffman2 Tutorials for Biostatisticians
 =======================================
 
-This is a guide for using UCLA IDRE’s Hoffman2 cluster computing system.
+This is a guide for using UCLA IDRE's Hoffman2 cluster computing system.
 There are guides for running jobs specific to
 [R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial)
 and
@@ -68,7 +68,7 @@ Account Creation
 The first step is to create an account.
 
 Register for an account at
-<a href="https://www.hoffman2.idre.ucla.edu/getting-started/#newuser" class="uri">https://www.hoffman2.idre.ucla.edu/getting-started/#newuser</a>.
+<https://www.hoffman2.idre.ucla.edu/getting-started/#newuser>.
 
 For faculty sponsor, you can choose your advisor if (s)he is on the
 list. If you do not have an advisor yet or (s)he is not on list, you can
@@ -86,7 +86,7 @@ To login, go to terminal in Linux/MacOS and type:
 
 and enter your password when prompted. You can also set up the more
 secure SSH keys and no password is required, following
-<a href="https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/" class="uri">https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/</a>.
+<https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/>.
 
 Upon login, you see a welcome message:
 
@@ -94,8 +94,7 @@ Upon login, you see a welcome message:
 
 Windows users can use PuTTY, MobaXterm, or Cygwin programs to establish
 SSH connection to Hoffman2. See
-<a href="https://www.hoffman2.idre.ucla.edu/access/#Windows" class="uri">https://www.hoffman2.idre.ucla.edu/access/#Windows</a>
-for details.
+<https://www.hoffman2.idre.ucla.edu/access/#Windows> for details.
 
 Basic Linux Commands
 --------------------
@@ -103,21 +102,22 @@ Basic Linux Commands
 To use Hoffman2, which runs on CentOS 6 (a specific Linux distribution),
 you have to use linux/unix commands to navigate.
 
-Some most useful commands:  
-\* make a directory: `mkdir dirname`  
-\* go to home directory: `cd`  
-\* go to a certain directory: `cd /path/`  
-\* see current directory: `pwd`  
-\* remove a file: `rm filename`  
-\* remove a directory: `rm -r dirname`  
-\* see whats in current directory: `ls`  
-\* see whats in current directory (including hidden items): `ls -a`  
-\* see size of current directory: `du -h`  
-\* transfer files between cluster/local computer via ssh: `scp` (more on
-this later) \* to go to directory containing the current directory:
-`cd ..`
+Some most useful commands:
 
-You can learn more about Linux in Dr. Hua Zhou’s *Biostat 203B:
+-   make a directory: `mkdir dirname`  
+-   go to home directory: `cd`  
+-   go to a certain directory: `cd /path/`  
+-   see current directory: `pwd`  
+-   remove a file: `rm filename`  
+-   remove a directory: `rm -r dirname`  
+-   see whats in current directory: `ls`  
+-   see whats in current directory (including hidden items): `ls -a`  
+-   see size of current directory: `du -h`  
+-   transfer files between cluster/local computer via ssh: `scp` (more
+    on this later)
+-   to go to directory containing the current directory: `cd ..`
+
+You can learn more about Linux in Dr. Hua Zhou's *Biostat 203B:
 Introduction to Data Science* course.
 
 Available Software
@@ -129,7 +129,7 @@ You can query available software on Hoffman2 by
 
 <img src="JuliaTutorial/pngs/Moduleavail.png" width="500">
 
-More than the ones shown are available. It’s a very long list. Most
+More than the ones shown are available. It's a very long list. Most
 relevant to biostatisticians include R, Julia, Python, JAGS (Just
 Another Gibbs Sampler), Matlab, and Stata.
 
@@ -160,8 +160,8 @@ Transfering Files
 ### scp
 
 `scp`, standing for secure copy paste, allows you to transfer files
-between an ssh server and your local computer. It’s a useful command if
-you set up ssh keys so that you don’t have to enter your password every
+between an ssh server and your local computer. It's a useful command if
+you set up ssh keys so that you don't have to enter your password every
 time you want to transfer files.
 
 To use `scp`:
@@ -189,7 +189,7 @@ download their Globus Connect Personal software, then set your laptop as
 an endpoint.
 
 Very detailed instructions can be found here
-<a href="https://www.hoffman2.idre.ucla.edu/file-transfer/globus/" class="uri">https://www.hoffman2.idre.ucla.edu/file-transfer/globus/</a>
+<https://www.hoffman2.idre.ucla.edu/file-transfer/globus/>
 
 In short,login to globus, then under endpoints, select
 `Create new endpoint`. Select a Globus Personal connect, then enter a
@@ -200,7 +200,7 @@ you will have created an endpoint where you can transfer files to.
 From there, you can login to [globus.com](globus.com) or launch Globus
 Connect Personal and click files transfer. There you can choose to
 transfer files between your machine and the cluster. To find the
-endpoint to transfer files to/from on the server, search “Hoffman2” in
+endpoint to transfer files to/from on the server, search "Hoffman2" in
 the Collection bar of the File Manager and select one of the official
 UCLA Hoffman2 Data Transfer Nodes.
 
@@ -217,8 +217,8 @@ Submit Jobs to Hoffman2
 
 Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
 computing jobs on the cluster. See
-<a href="https://www.hoffman2.idre.ucla.edu/computing/sge/" class="uri">https://www.hoffman2.idre.ucla.edu/computing/sge/</a>
-for some commonly used UGE commands or the more exhaustive [UGE User
+<https://www.hoffman2.idre.ucla.edu/computing/sge/> for some commonly
+used UGE commands or the more exhaustive [UGE User
 Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
 Following examples are more specific to biostatistical applications.
 
@@ -277,15 +277,15 @@ memory alotted will be 1GB. To request more, you can use the commmand
 This will request a four hour session where the maximum physical memory
 is 4GB.
 
-If you’d like to use more than one CPU core for your job, add
+If you'd like to use more than one CPU core for your job, add
 `-pe shared #` to the end. Note, the amount of memory requested will be
-for each core. For example, if you’d like to request 4 CPU cores, each
+for each core. For example, if you'd like to request 4 CPU cores, each
 with 2GB of memory for a total of 8GB for 5 hours, run:
 
     qrsh -l h_rt=5:00:00,h_data=2G -pe shared 4
 
 The more time and memory you request, the longer you will have to wait
-for an interactive compute node to become available to you. It’s normal
+for an interactive compute node to become available to you. It's normal
 to wait a few minutes to get an interactive session.
 
 For more advanced options you can use
@@ -294,13 +294,13 @@ For more advanced options you can use
 
 ### Resource limitations
 
-The maximum time for a session is 24 hours unless you’re working in a
+The maximum time for a session is 24 hours unless you're working in a
 group that owns their compute nodes. So do not have an `h_rt` value
 greated than `h_rt=24:00:00`.
 
 Different compute nodes have different amounts of memory. There are
 fewer nodes with lots of memory, so the larger the amount of memory
-you’re requesting the longer you will have to wait for the job to start
+you're requesting the longer you will have to wait for the job to start
 running. If you request too much, the job may never run.
 
 Requesting more than 4 cores for an interactive session can possibly
@@ -321,7 +321,7 @@ Using Jupyter Notebook
 
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions at
-<a href="https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/" class="uri">https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/</a>.
+<https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/>.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
@@ -355,9 +355,9 @@ If you are a biostatistics doctoral student, there are compute nodes
 that the biostatistics department has which will allow you to run jobs
 longer than 24 hours (up to 14 days). These nodes give group users
 priority to use them, so a job is guaranteed to run within 24 hours of
-the job submission on these nodes unless they’re all being used by other
+the job submission on these nodes unless they're all being used by other
 biostatistics group members. To get membership for these nodes, you will
-need to select Dr. Hua Zhou or Dr. Sudipto Banerjee as faculty sponsor.
+need to select Dr. Hua Zhou or Dr. Sudipto Banerjee as faculty sponsor.
 
 The biostatistics nodes are under the group name `@sudipto_pod`. To view
 the list of biostatistics nodes you can run the command
@@ -438,12 +438,12 @@ Additional Resources
     website](https://www.hoffman2.idre.ucla.edu/getting-started/) has
     various information on using the cluster.
 
--   Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped
+-   Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped
     various biostatistics students and faculty with running their
     projects on Hoffman2. You can set up an appointment by sending an
-    email (ticket) to
-    <a href="mailto:hpc@ucla.edu" class="email">hpc@ucla.edu</a>.
+    email (ticket) to <hpc@ucla.edu>.
 
--   Dr. Hua Zhou’s course *Biostat 203B: Introduction to Data Science*
+-   Dr. Hua Zhou's course *[Biostat 203B: Introduction to Data
+    Science](http://hua-zhou.github.io/teaching/biostatm280-2019winter/)*
     covers Linux basics, SSH keys, Git/GitHub, cluster computing using
     Hoffman2, and various other topics.
