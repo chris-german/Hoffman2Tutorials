@@ -390,10 +390,9 @@ with output
     n7405                   intel-gold-61  36    2   36   36  1.03  188.0G   10.3G   15.3G     0.0
 
 This shows that the biostatistics group has six nodes (n6277 n7277 n6278
-n7278 n6285 n7285), each with 12 cores (dual socket Intel Xeon X5650)
-and 48GB of memeory (an average of 4GB/core), and two nodes (n6444
-n7405), each with 36 cores (dual socket Intel Xeon Gold 6140 CPUs) and
-192GB of memory (an average of 5.3GB/core).
+n7278 n6285 n7285), each with 12 cores and 48GB of memeory (an average
+of 4GB/core), and two nodes (n6444 n7405), each with 36 cores and 192GB
+of memory (an average of 5.3GB/core).
 
 Request Biostatistics Nodes
 ---------------------------
