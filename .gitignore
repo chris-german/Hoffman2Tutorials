@@ -12,3 +12,4 @@ deps/deps.jl
 joblog*
 output*
 .Rproj.user
+.Rhistory
