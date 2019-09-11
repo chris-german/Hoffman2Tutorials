@@ -124,7 +124,7 @@ Then you will need to download their Globus Connect Personal software, then set 
 
 Very detailed instructions can be found here <https://www.hoffman2.idre.ucla.edu/file-transfer/globus/>
 
-In short,login to globus, then under endpoints, select `Create new endpoint`.
+In short, login to globus, then under endpoints, select `Create new endpoint`.
 Select a Globus Personal connect, then enter a name. Generate an installation setup key, save it somewhere, and then download the client. 
 Once you launch the client, enter the setup key and you will have created an endpoint where you can transfer files to. 
 
@@ -219,27 +219,29 @@ qconf -shgrp @sudipto_pod
 with example output  
 ```
 group_name @sudipto_pod
-hostlist n6277 n7277 n6278 n7278 n6285 n7285
+hostlist n6277 n7277 n6278 n7278 n6285 n7285 n6444 n7405
 ```
 
 To see what types of nodes there are (how many cores and how much memory each node has) you can run   
 ```{bash, eval=F}
-qhost -h n6277 n7277 n6278 n7278 n6285 n7285
-```  
+qhost -h n6277 n7277 n6278 n7278 n6285 n7285 n6444 n7405
+```
 with output   
 ```
 HOSTNAME                ARCH         NCPU NSOC NCOR NTHR NLOAD  MEMTOT  MEMUSE  SWAPTO  SWAPUS
 ----------------------------------------------------------------------------------------------
 global                  -               -    -    -    -     -       -       -       -       -
-n6277                   intel-X5650    12    2   12   12  1.00   47.3G   17.9G   15.3G   94.8M
-n6278                   intel-X5650    12    2   12   12  0.92   47.3G   15.3G   15.3G   60.2M
-n6285                   intel-X5650    12    2   12   12  0.99   47.3G    3.4G   15.3G   55.9M
-n7277                   intel-X5650    12    2   12   12  1.00   47.3G   13.6G   15.3G   53.4M
-n7278                   intel-X5650    12    2   12   12  1.00   47.3G    8.0G   15.3G   53.9M
-n7285                   intel-X5650    12    2   12   12  1.00   47.3G   17.5G   15.3G   64.1M
+n6277                   intel-X5650    12    2   12   12  2.23   47.3G    7.7G   15.3G  114.7M
+n6278                   intel-X5650    12    2   12   12  0.96   47.3G    3.6G   15.3G   75.1M
+n6285                   intel-X5650    12    2   12   12  1.75   47.3G    3.6G   15.3G   68.6M
+n6444                   intel-gold-61  36    2   36   36  2.56  187.9G   53.1G   15.3G   58.1M
+n7277                   intel-X5650    12    2   12   12  0.98   47.3G    6.2G   15.3G   69.8M
+n7278                   intel-X5650    12    2   12   12  0.92   47.3G    4.5G   15.3G   69.7M
+n7285                   intel-X5650    12    2   12   12  2.23   47.3G    5.8G   15.3G   99.4M
+n7405                   intel-gold-61  36    2   36   36  1.03  188.0G   10.3G   15.3G     0.0
 ```
 
-This shows that the biostatistics group has six nodes, each with 12 cores and 48GB of memeory (an average of 4GB/core).
+This shows that the biostatistics group has six  nodes (n6277 n7277 n6278 n7278 n6285 n7285), each with 12 cores (dual socket Intel Xeon X5650) and 48GB of memeory (an average of 4GB/core), and two nodes (n6444 n7405), each with 36 cores (dual socket Intel Xeon Gold 6140 CPUs) and 192GB of memory (an average of 5.3GB/core).
 
 ## Request Biostatistics Nodes
 
