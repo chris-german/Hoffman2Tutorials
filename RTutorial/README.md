@@ -82,7 +82,7 @@ For some analyses, you may want to do things interactively instead of
 just submitting jobs. The `qrsh` command is for loading you onto an
 interactive compute node.
 
-Typing `qrsh` on the Hoffman2 login node will submit q request for an
+Typing `qrsh` on the Hoffman2 login node will submit a request for an
 interactive session. By default, the session will run for two hours and
 the physical memory alotted will be 1GB.
 
@@ -104,7 +104,7 @@ to wait a few minutes to get an interactive session.
 
 ### R.q
 
-In addition to submitting a shell script via`qsub`, for R, there is the
+In addition to submitting a shell script via `qsub`, for R, there is the
 command `R.q` that can be used to generate a shell `.sh` script for an
 `Rscript` file and submit the job. Simply upload a `.R` file that you
 want to run on the cluster and type `R.q`. Follow the prompts and it

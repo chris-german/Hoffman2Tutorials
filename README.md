@@ -58,9 +58,10 @@ and large-scale computations.
 
 The Hoffman2 Cluster is a group of computing nodes that consists of over
 1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of
-memory. It consists of login nodes and compute nodes. Login nodes are
-where you can organize data (install packages, arrange data) and submit
-jobs and compute nodes are where computer-intensive tasks are run.
+memory. It consists of **login nodes** and **compute nodes**. Login
+nodes are where you can organize data (install packages, arrange data)
+and submit jobs and compute nodes are where computer-intensive tasks are
+run.
 
 Account Creation
 ----------------
@@ -92,8 +93,8 @@ Upon login, you see a welcome message:
 
 <img src="JuliaTutorial/pngs/Hoffman2login.png" width="500">
 
-Windows users can use PuTTY, MobaXterm, or Cygwin programs to establish
-SSH connection to Hoffman2. See
+Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to
+establish SSH connection to Hoffman2. See
 <a href="https://www.hoffman2.idre.ucla.edu/access/#Windows" class="uri">https://www.hoffman2.idre.ucla.edu/access/#Windows</a>
 for details.
 
@@ -118,8 +119,10 @@ Some most useful commands:
     on this later)
 -   to go to directory containing the current directory: `cd ..`
 
-You can learn more about Linux in Dr. Hua Zhou’s *Biostat 203B:
-Introduction to Data Science* course.
+You can learn more about Linux in Dr. Hua Zhou’s [Biostat 203B:
+Introduction to Data
+Science](https://ucla-biostat203b-2020winter.github.io/schedule.html)
+course.
 
 Available Software
 ------------------
@@ -152,8 +155,8 @@ If you are going to need packages installed for your use on Hoffman2,
 load julia using `julia` and then install the packges. Note: This should
 be done on a compute node as compiling julia and libraries can take
 quite a bit of resources. Therefore, you should use `qrsh`, discussed
-later to do this. Computing power is limited on login nodes so you
-should not run any analyses on the login node.
+later to do this. **Computing power is limited on login nodes so you
+should not run any analyses on the login node.**
 
 Transfering Files
 -----------------
@@ -170,15 +173,15 @@ To use `scp`:
 -   go to directory you want to store things/send things in/from on
     local computer.
 -   To send a file from local to cluster :
-    -   `scp filename.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
+    -   `scp filename.extension username@hoffman2.idre.ucla.edu:∼/directory_to_save_in/`
 -   To send multiple files from local to cluster
-    -   `scp filename1.extension filename2.extension username@hoffman2.idre.ucla.edu:∼/directorytosavein/`
+    -   `scp filename1.extension filename2.extension username@hoffman2.idre.ucla.edu:∼/directory_to_save_in/`
 -   To send a file from cluster to local
-    -   `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/filename.extension .`
+    -   `scp username@hoffman2.idre.ucla.edu:∼/directory_its_in/filename.extension .`
 -   To send multiple files from cluster to local
-    -   `scp username@hoffman2.idre.ucla.edu:∼/directoryitsin/{filename1.extension,filename2.extension} .`
+    -   `scp username@hoffman2.idre.ucla.edu:∼/directory_its_in/{filename1.extension,filename2.extension} .`
 -   To send directory with all files from cluster to local
-    -   `scp -r username@hoffman2.idre.ucla.edu:∼/directorytosend .`
+    -   `scp -r username@hoffman2.idre.ucla.edu:∼/directory_to_send .`
 
 ### Globus
 
@@ -211,7 +214,11 @@ UCLA Hoffman2 Data Transfer Nodes.
 
 Hoffman2 has Git and svn available, which offer a more productive and
 reproducible way to synchornize source code between computers and
-platforms.
+platforms. For example, to get a copy of these tutorials, simply type
+
+    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+
+    ## Cloning into 'Hoffman2Tutorials'...
 
 Submit Jobs to Hoffman2
 -----------------------
@@ -297,7 +304,7 @@ For more advanced options you can use
 
 The maximum time for a session is 24 hours unless you’re working in a
 group that owns their compute nodes. So do not have an `h_rt` value
-greated than `h_rt=24:00:00`.
+greater than `h_rt=24:00:00`.
 
 Different compute nodes have different amounts of memory. There are
 fewer nodes with lots of memory, so the larger the amount of memory
@@ -368,7 +375,7 @@ the list of biostatistics nodes you can run the command
 with example output
 
     group_name @sudipto_pod
-    hostlist n6277 n7277 n6278 n7278 n6285 n7285 n6444 n7405
+    hostlist n6277 n7277 n6278 n7278 n6285 n7285 n6643 n7643
 
 To see what types of nodes there are (how many cores and how much memory
 each node has) you can run
@@ -380,18 +387,18 @@ with output
     HOSTNAME                ARCH         NCPU NSOC NCOR NTHR NLOAD  MEMTOT  MEMUSE  SWAPTO  SWAPUS
     ----------------------------------------------------------------------------------------------
     global                  -               -    -    -    -     -       -       -       -       -
-    n6277                   intel-X5650    12    2   12   12  2.23   47.3G    7.7G   15.3G  114.7M
-    n6278                   intel-X5650    12    2   12   12  0.96   47.3G    3.6G   15.3G   75.1M
-    n6285                   intel-X5650    12    2   12   12  1.75   47.3G    3.6G   15.3G   68.6M
-    n6444                   intel-gold-61  36    2   36   36  2.56  187.9G   53.1G   15.3G   58.1M
-    n7277                   intel-X5650    12    2   12   12  0.98   47.3G    6.2G   15.3G   69.8M
-    n7278                   intel-X5650    12    2   12   12  0.92   47.3G    4.5G   15.3G   69.7M
-    n7285                   intel-X5650    12    2   12   12  2.23   47.3G    5.8G   15.3G   99.4M
-    n7405                   intel-gold-61  36    2   36   36  1.03  188.0G   10.3G   15.3G     0.0
+    n6277                   intel-X5650    12    2   12   12  0.25   47.3G    5.8G   15.3G  107.0M
+    n6278                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G     0.0
+    n6285                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G  158.5M
+    n6643                   intel-gold-61  36    2   36   36  0.69  189.0G   22.4G   15.3G   65.0M
+    n7277                   intel-X5650    12    2   12   12  0.25   47.3G    6.7G   15.3G   68.4M
+    n7278                   intel-X5650    12    2   12   12  0.25   47.3G    6.8G   15.3G   65.7M
+    n7285                   intel-X5650    12    2   12   12  0.25   47.3G    5.0G   15.3G   72.4M
+    n7643                   intel-gold-61  36    2   36   36  0.71  189.0G   23.6G   15.3G   66.6M
 
-This shows that the biostatistics group has six nodes (n6277 n7277 n6278
-n7278 n6285 n7285), each with 12 cores and 48GB of memeory (an average
-of 4GB/core), and two nodes (n6444 n7405), each with 36 cores and 192GB
+This shows that the biostatistics group has six nodes (n6277 n6278 n6285
+n7277 n7278 n7285), each with 12 cores and 48GB of memeory (an average
+of 4GB/core), and two nodes (n6643 n7643), each with 36 cores and 192GB
 of memory (an average of 5.3GB/core).
 
 Request Biostatistics Nodes
