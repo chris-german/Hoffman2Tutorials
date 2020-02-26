@@ -51,7 +51,7 @@ type of file you `qsub` has to have a specific format (batch script).
 
     cat submit.sh
 
-    ## #!/bin/bash #sets bash up
+    ## #!/bin/bash
     ## #$ -cwd #uses current working directory
     ## # error = Merged with joblog
     ## #$ -o joblog.$JOB_ID #creates a file called joblog.jobidnumber to write to. 

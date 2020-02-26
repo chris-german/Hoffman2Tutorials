@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 # Hoffman2 Tutorials for Biostatisticians
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 This is a guide for using UCLA IDRE's Hoffman2 cluster computing system. There are guides for running jobs specific to [R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) and [Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial), as well as general guides for commands and what is available for users. 
 
 To try out the sample code in the tutorial, simply issue 
-```{bash,eval=F}
+```{bash, eval=F}
 git clone https://github.com/chris-german/Hoffman2Tutorials.git
 ```
 on Hoffman2 to clone this repository.
