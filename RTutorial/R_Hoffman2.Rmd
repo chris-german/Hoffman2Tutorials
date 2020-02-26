@@ -144,7 +144,7 @@ cat runSim.R
 To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`, and `oFile`. For example,
 ```{bash, eval=FALSE}
 module load R/3.5.1
-R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'simresults/n_100d_rnorm(n).txt'; source('runSim.R')"
+R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"
 ```
 But remember we should not run this job on the login node. We submit it to a compute node using the script [`submit.sh`](./submit.sh)
 ```{bash, eval=F}
@@ -153,7 +153,7 @@ qsub submit.sh
 
 After the job is done, we can examine that the results have been written to the txt file.
 ```{bash}
-head simresults/n_100d_rnorm\(n\).txt 
+head n_100d_rnorm\(n\).txt 
 ```
 If you experience an error, you can take a look at the `output.####` file that was generated. This files indicates any output generated in R. 
 

@@ -226,7 +226,7 @@ To run this simulation from command line, user needs to pass values for
 `n`, `d`, `s`, `reps`, and `oFile`. For example,
 
     module load R/3.5.1
-    R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'simresults/n_100d_rnorm(n).txt'; source('runSim.R')"
+    R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"
 
 But remember we should not run this job on the login node. We submit it
 to a compute node using the script [`submit.sh`](./submit.sh)
