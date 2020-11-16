@@ -87,7 +87,7 @@ Requesting more than 4 cores for an interactive session can possibly take a long
 
 ## Using RStudio on Hoffman2
 
-To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link <https://www.hoffman2.idre.ucla.edu/access/x11_forwarding>. On a Mac, you will need to install XQuartz, run 
+To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications>. On a Mac, you will need to install XQuartz, run 
 ```{bash, eval = FALSE}
 defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
 ```
@@ -153,7 +153,7 @@ qsub submit.sh
 
 After the job is done, we can examine that the results have been written to the txt file.
 ```{bash}
-head n_100d_rnorm\(n\).txt 
+head simresults/n_100d_rnorm\(n\).txt 
 ```
 If you experience an error, you can take a look at the `output.####` file that was generated. This files indicates any output generated in R. 
 

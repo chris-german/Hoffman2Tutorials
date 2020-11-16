@@ -69,7 +69,7 @@ Account Creation
 The first step is to create an account.
 
 Register for an account at
-<a href="https://www.hoffman2.idre.ucla.edu/getting-started/#newuser" class="uri">https://www.hoffman2.idre.ucla.edu/getting-started/#newuser</a>.
+<a href="https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html" class="uri">https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html</a>.
 
 For faculty sponsor, you can choose your advisor if (s)he is on the
 list. If you do not have an advisor yet or (s)he is not on list, you can
@@ -87,7 +87,7 @@ To login, go to terminal in Linux/MacOS and type:
 
 and enter your password when prompted. You can also set up the more
 secure SSH keys and no password is required, following
-<a href="https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/" class="uri">https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/</a>.
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh</a>.
 
 Upon login, you see a welcome message:
 
@@ -95,7 +95,7 @@ Upon login, you see a welcome message:
 
 Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to
 establish SSH connection to Hoffman2. See
-<a href="https://www.hoffman2.idre.ucla.edu/access/#Windows" class="uri">https://www.hoffman2.idre.ucla.edu/access/#Windows</a>
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows</a>
 for details.
 
 Basic Linux Commands
@@ -193,7 +193,7 @@ download their Globus Connect Personal software, then set your laptop as
 an endpoint.
 
 Very detailed instructions can be found here
-<a href="https://www.hoffman2.idre.ucla.edu/file-transfer/globus/" class="uri">https://www.hoffman2.idre.ucla.edu/file-transfer/globus/</a>
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus</a>
 
 In short, login to globus, then under endpoints, select
 `Create new endpoint`. Select a Globus Personal connect, then enter a
@@ -223,7 +223,7 @@ Submit Jobs to Hoffman2
 
 Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
 computing jobs on the cluster. See
-<a href="https://www.hoffman2.idre.ucla.edu/computing/sge/" class="uri">https://www.hoffman2.idre.ucla.edu/computing/sge/</a>
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html</a>
 for some commonly used UGE commands or the more exhaustive [UGE User
 Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
 Following examples are more specific to biostatistical applications.
@@ -307,7 +307,7 @@ Using Jupyter Notebook
 
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions at
-<a href="https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/" class="uri">https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/</a>.
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab</a>.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
@@ -325,7 +325,7 @@ space, scratch space, and user home space.
     through Hoffman2.
 
 -   Scratch space allows you to store up to 1TB of data on the cluster,
-    accessable by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
+    accessable by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
     temporary storage only, and files are only guaranteed to stay on the
     space for 7 days. After, they are erased.
 
@@ -424,9 +424,8 @@ simulation study.
 Additional Resources
 --------------------
 
--   [Hoffman2
-    website](https://www.hoffman2.idre.ucla.edu/getting-started/) has
-    various information on using the cluster.
+-   [Hoffman2 website](https://www.hoffman2.idre.ucla.edu/index.html)
+    has detailed documentation and information on using the cluster.
 
 -   Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped
     various biostatistics students and faculty with running their

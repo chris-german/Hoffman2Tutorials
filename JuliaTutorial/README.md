@@ -328,7 +328,7 @@ Using Jupyter Notebook
 
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions linked
-[here](https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/)
+[here](https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab)
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you

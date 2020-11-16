@@ -34,7 +34,7 @@ The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 6
 
 The first step is to create an account.
 
-Register for an account at <https://www.hoffman2.idre.ucla.edu/getting-started/#newuser>.
+Register for an account at <https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html>.
 
 For faculty sponsor, you can choose your advisor if (s)he is on the list. If you do not have an advisor yet or (s)he is not on list, you can choose `Hua Zhou` or `Sudipto Banerjee`. The faculty sponsor will receive an email after you submit the registration form. Once your account gets approved, you’ll get an email with a link to see your temporary password that must be used within 4 weeks.
 
@@ -44,13 +44,13 @@ To login, go to terminal in Linux/MacOS and type:
 ```{bash,eval=F}
 ssh username@hoffman2.idre.ucla.edu 
 ```  
-and enter your password when prompted. You can also set up the more secure SSH keys and no password is required, following <https://www.hoffman2.idre.ucla.edu/access/passwordless_ssh/>. 
+and enter your password when prompted. You can also set up the more secure SSH keys and no password is required, following <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh>. 
 
 Upon login, you see a welcome message:
 
 <img src="JuliaTutorial/pngs/Hoffman2login.png" width="500">
 
-Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to establish SSH connection to Hoffman2. See <https://www.hoffman2.idre.ucla.edu/access/#Windows> for details.
+Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to establish SSH connection to Hoffman2. See <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows> for details.
 
 ## Basic Linux Commands
 
@@ -122,7 +122,7 @@ To use `scp`:
 Globus allows you to transfer files between your local computer and the cluster. To use Globus you will have to go to [www.globus.com](www.globus.com) and login through UCLA by selecting your existing organizational login as UCLA. 
 Then you will need to download their Globus Connect Personal software, then set your laptop as an endpoint.
 
-Very detailed instructions can be found here <https://www.hoffman2.idre.ucla.edu/file-transfer/globus/>
+Very detailed instructions can be found here <https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus>
 
 In short, login to globus, then under endpoints, select `Create new endpoint`.
 Select a Globus Personal connect, then enter a name. Generate an installation setup key, save it somewhere, and then download the client. 
@@ -141,7 +141,7 @@ git clone https://github.com/chris-german/Hoffman2Tutorials.git
 
 ## Submit Jobs to Hoffman2
 
-Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage computing jobs on the cluster. See <https://www.hoffman2.idre.ucla.edu/computing/sge/> for some commonly used UGE commands or the more exhaustive [UGE User Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf). Following examples are more specific to biostatistical applications.
+Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage computing jobs on the cluster. See <https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html> for some commonly used UGE commands or the more exhaustive [UGE User Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf). Following examples are more specific to biostatistical applications.
 
 ### Submit a batch job by `qsub`
 
@@ -195,7 +195,7 @@ and the job will be canceled. To cancel all jobs simply leave `jobID` blank.
 
 ## Using Jupyter Notebook
 
-To use Jupyter Notebook interactively in Hoffman2, follow the instructions at <https://www.hoffman2.idre.ucla.edu/access/jupyter-notebook/>.
+To use Jupyter Notebook interactively in Hoffman2, follow the instructions at <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab>.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use. To use `julia v1.1.0`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
 
@@ -277,7 +277,7 @@ Specific guides for submitting [Julia jobs](https://github.com/chris-german/Hoff
 
 ## Additional Resources
 
-* [Hoffman2 website](https://www.hoffman2.idre.ucla.edu/getting-started/) has various information on using the cluster.
+* [Hoffman2 website](https://www.hoffman2.idre.ucla.edu/index.html) has detailed documentation and information on using the cluster.
 
 * Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped various biostatistics students and faculty with running their projects on Hoffman2. You can set up an appointment by sending an email (ticket) to <hpc@ucla.edu>. 
 

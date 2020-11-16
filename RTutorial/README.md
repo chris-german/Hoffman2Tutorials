@@ -132,7 +132,7 @@ To use RStudio on Hoffman2, you must launch an interactive session via
 `qrsh` and then load the R studio module. Then you type `rstudio` and
 the RStudio IDE will launch. You may have to setup x11 forwarding, via
 this link
-<a href="https://www.hoffman2.idre.ucla.edu/access/x11_forwarding" class="uri">https://www.hoffman2.idre.ucla.edu/access/x11_forwarding</a>.
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications</a>.
 On a Mac, you will need to install XQuartz, run
 
     defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
