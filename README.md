@@ -63,6 +63,8 @@ nodes are where you can organize data (install packages, arrange data)
 and submit jobs and compute nodes are where computer-intensive tasks are
 run.
 
+<img src="JuliaTutorial/pngs/CCN_Hoffman2_Workshop.jpg" width="500">
+
 Account Creation
 ----------------
 
