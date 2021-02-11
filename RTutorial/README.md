@@ -172,12 +172,24 @@ This sets up forwarding and also allows you to access the cluster as
 Then to access RStudio run the following:
 
     qrsh
-    module load R/3.5.1
+    module load R/4.0.2
     module load Rstudio
     rstudio
 
 RStudio will launch in the application that you use for x11 forwarding
 and you can use it as you would RStudio on your own computer.
+
+If you do not have a module of R loaded, Rstudio will load the current
+default version of R on the cluster unless you have an R module alredy
+loaded.
+
+The version of Rstudio on Hoffman2 is quite old, some of the nodes have
+a more modern version of Rstudio. You can request an interactive session
+on these nodes specifically with the `-l rh7` option, such as:
+
+    qrsh -l rh7
+    module load Rstudio
+    rstudio
 
 ![](pngs/rstudio.png)
 
