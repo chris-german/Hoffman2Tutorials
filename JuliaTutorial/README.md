@@ -9,6 +9,7 @@
     -   [A single simulation run](#a-single-simulation-run)
     -   [Multiple simulation runs](#multiple-simulation-runs)
     -   [Using Jupyter Notebook](#using-jupyter-notebook)
+    -   [Jobs crashing or killed](#Jobs-crashing-or-killed)
 
 Hoffman2 Julia Tutorial
 =======================
@@ -335,3 +336,13 @@ have installed the `IJulia` package in the version of julia that you
 would like to use – to use `julia v1.1.0`, login to Hoffman2, use the
 `qrsh` command to get an interactive compute note, then load julia
 1.1.0, and launch julia and install the `IJulia` package.
+
+Jobs crashing or killed
+----------------------
+
+Julia jobs may randomly crash on Hoffman. There are 3 common reasons.
+1. Insufficient virtual memory. Even if your program require little physical memory, it may have larger than expected virtual memory requirement. See [how much virtual memory you need](https://www.hoffman2.idre.ucla.edu/About/FAQ/FAQ.html?highlight=maxvmem#how-much-virtual-memory-should-i-request-in-job-submission). Adding the `-l exclusive` flag bypasses virtual memory checking.
+2. If you are using Julia from the system-wide installation via `module load julia` (or downloaded the prebuilt Julia by yourself from Julia's download web site), it is recommended to do so on Intel nodes, as required by the prebuilt Julia. To do so, add the option `-l arch=intel*` to `qsub`, or `-l arch=intel\*` to qrsh. (The escape character `\` is necessary in `qrsh` since it is issued from the command prompt.)
+3. Some Julia packages require the `glibc` library newer than what CentOS 6 has. In that case, you will have to run on the CentOS 7 nodes. To do so, add `-l rh7` to `qrsh` or `qsub` commands. There are only a small number of CentOS 7 nodes right now; you may experience longer wait time that running on CentOS 6. Hoffman2 cluster will eventually transition to CentOS 7; the transition will take some time to complete but has started (3/23/2021).
+
+Credit goes to Shiao-Ching Huang (@schuang) for pointing out 2 and 3. 
