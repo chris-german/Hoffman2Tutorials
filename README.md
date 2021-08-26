@@ -63,8 +63,6 @@ nodes are where you can organize data (install packages, arrange data)
 and submit jobs and compute nodes are where computer-intensive tasks are
 run.
 
-<img src="JuliaTutorial/pngs/CCN_Hoffman2_Workshop.jpg" width="500">
-
 Account Creation
 ----------------
 
@@ -79,6 +77,8 @@ choose `Hua Zhou` or `Sudipto Banerjee`. The faculty sponsor will
 receive an email after you submit the registration form. Once your
 account gets approved, you’ll get an email with a link to see your
 temporary password that must be used within 4 weeks.
+
+<img src="JuliaTutorial/pngs/CCN_Hoffman2_Workshop.jpg" width="500">
 
 Logging in
 ----------
@@ -324,10 +324,12 @@ Users have access to three types of data storage on Hoffman2: group
 space, scratch space, and user home space.
 
 -   Group space is available if you are in a group that purchased space
-    through Hoffman2.
+    through Hoffman2. If you are affiliated with Department of
+    Biostatistics, most likely you have access to the space at
+    `/u/project/biostat-chair/[your_username]`.
 
 -   Scratch space allows you to store up to 1TB of data on the cluster,
-    accessable by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
+    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
     temporary storage only, and files are only guaranteed to stay on the
     space for 7 days. After, they are erased.
 
@@ -436,6 +438,6 @@ Additional Resources
     <a href="mailto:hpc@ucla.edu" class="email">hpc@ucla.edu</a>.
 
 -   Dr. Hua Zhou’s course *[Biostat 203B: Introduction to Data
-    Science](http://hua-zhou.github.io/teaching/biostatm280-2019winter/)*
+    Science](https://ucla-biostat203b-2021winter.github.io/schedule/schedule.html)*
     covers Linux basics, SSH keys, Git/GitHub, cluster computing using
     Hoffman2, and various other topics.
