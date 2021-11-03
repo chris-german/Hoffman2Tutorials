@@ -324,26 +324,10 @@ Since it does not include any command or option to run
 `module load julia` or `module load R`, one needs to add lines that run
 them.
 
-For the most recent commit as of Nov 3, 2021, commit SHA
-72fb764c72441763de3da93ccb8dbbe94f0bfbe5, it contains on [Line
-382](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L382):
-
-    if (usegpu == 'yes'):
-       pqsub.stdin.write(MODULE_LOADCUDA_TEMP % (cudaver) +"\n")
-    pqsub.stdin.write(MODULE_LOAD_TEMP % (pythonver) +"\n")
-
-You can add
-
-    pqsub.stdin.write("module load julia" +"\n")
-
-or
-
-    pqsub.stdin.write("module load R" +"\n")
-
-right below those lines. In addition, Julia users might want to request
-an “any Intel” node. This can be achieved by adding an option of
-`(not arch == 'intel-\*')` to [Line
-230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230).
+Julia users might want to request an “any Intel” node. This can be
+achieved by adding an option of `(not arch == 'intel-\*')` to [Line
+230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230)
+of the most recent commit of the file as of Nov 3, 2021.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
