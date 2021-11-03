@@ -130,22 +130,26 @@ qsub submit.sh
 In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write a jobarray script to do this. 
 <!--We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.-->
 
-On a cluster, each simulation can be submitted in a jobarray, which can be spread across different compute nodes. The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`clusterSim.sh`](./clusterSim.sh), we submit sample sizes n (100, 200, ..., 500) and generative models given as a command-line argument. (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs using `qsub`. 
+On a cluster, each simulation can be submitted in a jobarray, which can be spread across different compute nodes. The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`submit_array.sh`](./submit_array.sh), we submit sample sizes n (100, 200, ..., 500) and generative models given as a command-line argument (standard normal by default, and it can be anything else) we can submit the jobs using `qsub`. 
 
 ```{bash}
-cat ClusterSim.sh
+cat submit_array.sh
 ```
 
 So on the cluster we just need to run the following on an interactive compute node
 ```{bash,eval=F}
-julia ClusterSim.jl
+qsub submit_array.sh
 ```
-<img src="pngs/juliasims.png" width="500">
+<!--<img src="pngs/juliasims.png" width="500">-->
 
+One may try different distributions. Examples of 5-df T distribution and 1-df T distributions are given in `run_arrays.sh`. 
+```{bash}
+cat run_arrays.sh
+```
 
-The generated `tmp.sh` file will read like this with different sample size and distributions created:
-```{bash,eval=F}
-cat tmp.sh
+You can submit these jobs by just running this script: 
+```bash
+bash run_arrays.sh
 ```
 
 You can check on the state of your current jobs by running:

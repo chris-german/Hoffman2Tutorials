@@ -1,5 +1,4 @@
 using DelimitedFiles, Distributions, Primes, Random, Statistics
-using Distributions
 n = parse(Int, ARGS[1])
 reps = parse(Int, ARGS[2])
 seed = parse(Int, ARGS[3])
