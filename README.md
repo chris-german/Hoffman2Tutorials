@@ -340,7 +340,10 @@ or
 
     pqsub.stdin.write("module load R" +"\n")
 
-right below those lines.
+right below those lines. In addition, Julia users might want to request
+an “any Intel” node. This can be achieved by adding an option of
+`(not arch == 'intel-\*')` to [Line
+230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230).
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
