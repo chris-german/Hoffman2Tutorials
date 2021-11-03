@@ -185,6 +185,9 @@ To use `scp`:
 -   To send directory with all files from cluster to local
     -   `scp -r username@hoffman2.idre.ucla.edu:∼/directory_to_send .`
 
+**Hoffman2 has [two dedicated nodes for data transfer](https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html). For large file transfers, it  is recommended to use them through the URL `dtn.hoffman2.idre.ucla.edu` using `rsync` or Globus.**
+
+
 ### Globus
 
 Globus allows you to transfer files between your local computer and the
