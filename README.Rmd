@@ -92,9 +92,9 @@ module avail julia
 
 ## Loading Software
 
-To load a module, say `julia` version 1.1.0, for use type:
+To load a module, say `julia` version 1.6, for use type:
 ```{bash, eval=F}
-module load julia/1.1.0
+module load julia/1.6
 ```
 If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed later to do this. **Computing power is limited on login nodes so you should not run any analyses on the login node.**
 
@@ -138,7 +138,7 @@ From there, you can login to [globus.com](globus.com) or launch Globus Connect P
 ### Git and SVN
 
 Hoffman2 has Git and svn available, which offer a more productive and reproducible way to synchornize source code between computers and platforms. For example, to get a copy of these tutorials, simply type  
-```{bash}
+```{bash, eval=F}
 git clone https://github.com/chris-german/Hoffman2Tutorials.git
 ```
 
@@ -202,18 +202,18 @@ To use Jupyter Notebook interactively in Hoffman2, follow the instructions at <h
 
 For the most recent commit as of Nov 3, 2021, commit SHA 72fb764c72441763de3da93ccb8dbbe94f0bfbe5, it contains on [Line 382](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L382):
 
-```{python, eval=F}
+```python
 if (usegpu == 'yes'):
    pqsub.stdin.write(MODULE_LOADCUDA_TEMP % (cudaver) +"\n")
 pqsub.stdin.write(MODULE_LOAD_TEMP % (pythonver) +"\n")
 ```
 
 You can add 
-```{python, eval=F}
+```python
 pqsub.stdin.write("module load julia" +"\n")
 ```
 or 
-```{python, eval=F}
+```python
 pqsub.stdin.write("module load R" +"\n")
 ```
 right below those lines.
@@ -273,7 +273,7 @@ For example, the line in your `.sh` file should look like:
 To alter (without re-submitting it) a already-pending job from non-highp to highp, follow steps:
 
 1. Get the “hard resource” parameter list:  
-    ```{bas,eval=F}
+    ```{bash,eval=F}
     qstat -j job_id | grep ^'hard resource_list'
     ```
 For example, you have hard resource_list: `h_data=1024M,h_rt=259200`

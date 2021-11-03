@@ -102,15 +102,15 @@ Requesting more than 4 cores for an interactive session can possibly take a long
 
 ## A single simulation run
 
-The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
+The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `dist`, and using seed `seed`. There are `reps` replicates. Values of `n`, `dist`, `seed` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
 ```{bash}
 cat runSim.jl
 ```
 
-To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`. For example,
+To run this simulation from command line, user needs to pass values for `n`, `reps`,`seed`, and `dist`, in that order. `dist` is a string that contains a command to initialize a distribution. For example,
 ```{bash,eval=F}
 module load julia/1.6
-julia -e 'using Distributions; n, d, reps, s = 100, Normal(), 100, 123; include("runSim.jl")'
+julia runSim.jl 100 100 123 "Normal()"
 ```
 
 We can see the results have been written to the txt file.
@@ -127,12 +127,13 @@ qsub submit.sh
 
 ## Multiple simulation runs
 
-In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
+In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write a jobarray script to do this. 
+<!--We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.-->
 
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`clusterSim.jl`](./clusterSim.jl), we loop over sample sizes n (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs by building the file with each scenario to submit and using `qsub`. 
+On a cluster, each simulation can be submitted in a jobarray, which can be spread across different compute nodes. The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`clusterSim.sh`](./clusterSim.sh), we submit sample sizes n (100, 200, ..., 500) and generative models given as a command-line argument. (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs using `qsub`. 
 
 ```{bash}
-cat ClusterSim.jl
+cat ClusterSim.sh
 ```
 
 So on the cluster we just need to run the following on an interactive compute node

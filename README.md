@@ -149,9 +149,9 @@ those that start with `julia`, type
 Loading Software
 ----------------
 
-To load a module, say `julia` version 1.1.0, for use type:
+To load a module, say `julia` version 1.6, for use type:
 
-    module load julia/1.1.0
+    module load julia/1.6
 
 If you are going to need packages installed for your use on Hoffman2,
 load julia using `julia` and then install the packges. Note: This should
@@ -185,8 +185,10 @@ To use `scp`:
 -   To send directory with all files from cluster to local
     -   `scp -r username@hoffman2.idre.ucla.edu:∼/directory_to_send .`
 
-**Hoffman2 has [two dedicated nodes for data transfer](https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html). For large file transfers, it  is recommended to use them through the URL `dtn.hoffman2.idre.ucla.edu` using `rsync` or Globus.**
-
+**Hoffman2 has [two dedicated nodes for data
+transfer](https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html).
+For large file transfers, it is recommended to use them through the URL
+`dtn.hoffman2.idre.ucla.edu` using `rsync` or Globus.**
 
 ### Globus
 
@@ -227,7 +229,9 @@ Submit Jobs to Hoffman2
 -----------------------
 
 Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
-computing jobs on the cluster. See
+computing jobs on the cluster. UGE is a fork of Sun Grid Engine (now
+known as Oracle Grid Engine), and most commands and environment
+variables are identical to it. See
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html</a>
 for some commonly used UGE commands or the more exhaustive [UGE User
 Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
@@ -313,28 +317,55 @@ Using Jupyter Notebook
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions at
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab</a>.
+It needs you to set up password-less ssh connection and download a
+[Python
+script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb).
+Since it does not include any command or option to run
+`module load julia` or `module load R`, one needs to add lines that run
+them.
+
+For the most recent commit as of Nov 3, 2021, commit SHA
+72fb764c72441763de3da93ccb8dbbe94f0bfbe5, it contains on [Line
+382](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L382):
+
+    if (usegpu == 'yes'):
+       pqsub.stdin.write(MODULE_LOADCUDA_TEMP % (cudaver) +"\n")
+    pqsub.stdin.write(MODULE_LOAD_TEMP % (pythonver) +"\n")
+
+You can add
+
+    pqsub.stdin.write("module load julia" +"\n")
+
+or
+
+    pqsub.stdin.write("module load R" +"\n")
+
+right below those lines.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
-would like to use. To use `julia v1.1.0`, login to Hoffman2, use the
-`qrsh` command to get an interactive compute note, then load julia
-1.1.0, and launch julia and install the `IJulia` package.
+would like to use. To use `julia v1.6`, login to Hoffman2, use the
+`qrsh` command to get an interactive compute note, then load julia 1.6,
+and launch julia and install the `IJulia` package.
 
 Data Storage
 ------------
 
 Users have access to three types of data storage on Hoffman2: group
-space, scratch space, and user home space.
+space, scratch space, and user home space. See [this
+document](https://www.hoffman2.idre.ucla.edu/Using-H2/Storage/Storage.html)
+for the most updated information.
 
 -   Group space is available if you are in a group that purchased space
     through Hoffman2. If you are affiliated with Department of
     Biostatistics, most likely you have access to the space at
-    `/u/project/biostat-chair/[your_username]`.
+    `/u/project/biostat-chair/[your_username]`, and you will have a link
+    to this directory at `$HOME/project-biostat-chair`.
 
--   Scratch space allows you to store up to 1TB of data on the cluster,
-    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
+-   Scratch space allows you to store up to 2TB of data on the cluster,
+    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
     temporary storage only, and files are only guaranteed to stay on the
-    space for 7 days. After, they are erased.
+    space for 14 days. After, they are eligible to be erased.
 
 -   User home space is 20GB of data. This is where you can store files
     permanently.
@@ -360,31 +391,23 @@ the list of biostatistics nodes you can run the command
 with example output
 
     group_name @sudipto_pod
-    hostlist n6277 n7277 n6278 n7278 n6285 n7285 n6643 n7643
+    hostlist n6643 n7643
 
 To see what types of nodes there are (how many cores and how much memory
 each node has) you can run
 
-    qhost -h n6277 n7277 n6278 n7278 n6285 n7285 n6444 n7405
+    qhost -h n6643 n7643
 
 with output
 
     HOSTNAME                ARCH         NCPU NSOC NCOR NTHR NLOAD  MEMTOT  MEMUSE  SWAPTO  SWAPUS
     ----------------------------------------------------------------------------------------------
     global                  -               -    -    -    -     -       -       -       -       -
-    n6277                   intel-X5650    12    2   12   12  0.25   47.3G    5.8G   15.3G  107.0M
-    n6278                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G     0.0
-    n6285                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G  158.5M
-    n6643                   intel-gold-61  36    2   36   36  0.69  189.0G   22.4G   15.3G   65.0M
-    n7277                   intel-X5650    12    2   12   12  0.25   47.3G    6.7G   15.3G   68.4M
-    n7278                   intel-X5650    12    2   12   12  0.25   47.3G    6.8G   15.3G   65.7M
-    n7285                   intel-X5650    12    2   12   12  0.25   47.3G    5.0G   15.3G   72.4M
-    n7643                   intel-gold-61  36    2   36   36  0.71  189.0G   23.6G   15.3G   66.6M
+    n6643                   intel-gold-61  36    2   36   36  0.00  188.6G    5.8G    1.9G   58.2M
+    n7643                   intel-gold-61  36    2   36   36  0.00  188.6G    5.8G    1.9G   60.8M
 
-This shows that the biostatistics group has six nodes (n6277 n6278 n6285
-n7277 n7278 n7285), each with 12 cores and 48GB of memeory (an average
-of 4GB/core), and two nodes (n6643 n7643), each with 36 cores and 192GB
-of memory (an average of 5.3GB/core).
+This shows that the biostatistics group has two nodes (n6643 n7643),
+each with 36 cores and 192GB of memory (an average of 5.3GB/core).
 
 Request Biostatistics Nodes
 ---------------------------
