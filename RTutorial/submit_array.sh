@@ -18,5 +18,5 @@ module load R
 echo ${SGE_TASK_ID}
 echo $1
 # run julia code
-echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
-Rscript runSim.R ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID 2>&1
+echo Running runSim.jl for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
+Rscript runSim.R ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID.${SGE_TASK_ID} 2>&1

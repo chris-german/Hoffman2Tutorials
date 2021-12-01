@@ -16,6 +16,6 @@ module load R #loads R for use
 
 # run R code
 echo 'Running runSim.R' #prints this quote to joblog.jobidnumber
-Rscript runSim.R 100 100 123 rnorm(n) > output.$JOB_ID 2>&1
+Rscript runSim.R 100 100 123 "rnorm(n)" > output.$JOB_ID 2>&1
 # command-line arguments: number of samples, number of repetitions, seed, command to create n samples
 # outputs any text (stdout and stderr) to output.$JOB_ID
