@@ -1,5 +1,4 @@
 args = commandArgs(trailingOnly=TRUE)
-print(args)
 n = as.integer(args[1])
 reps = as.integer(args[2])
 s = as.integer(args[3])
