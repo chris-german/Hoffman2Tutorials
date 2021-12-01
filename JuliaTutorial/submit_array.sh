@@ -18,6 +18,6 @@ module load julia/1.6 #loads julia/1.6 for use
 echo ${SGE_TASK_ID}
 echo $1
 # run julia code
-echo 'Running runSim.jl for n = 100' #prints this quote to joblog.jobidnumber
+echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
 julia runSim.jl ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID.${SGE_TASK_ID} 2>&1 # n reps seed distribition
 

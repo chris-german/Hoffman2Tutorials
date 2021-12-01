@@ -1,6 +1,6 @@
 ---
 title: "Hoffman2 Julia Tutorial"
-author: "Chris German and Hua Zhou"
+author: "Chris German, Seyoon Ko, and Hua Zhou"
 output:
   md_document:
     toc: true

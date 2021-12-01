@@ -1,42 +1,16 @@
--   [Hoffman2 Tutorials for
-    Biostatisticians](#hoffman2-tutorials-for-biostatisticians)
-    -   [What is Hoffman2](#what-is-hoffman2)
-    -   [Account Creation](#account-creation)
-    -   [Logging in](#logging-in)
-    -   [Basic Linux Commands](#basic-linux-commands)
-    -   [Available Software](#available-software)
-    -   [Loading Software](#loading-software)
-    -   [Transfering Files](#transfering-files)
-        -   [scp](#scp)
-        -   [Globus](#globus)
-        -   [Git and SVN](#git-and-svn)
-    -   [Submit Jobs to Hoffman2](#submit-jobs-to-hoffman2)
-        -   [Submit a batch job by `qsub`](#submit-a-batch-job-by-qsub)
-        -   [Interactive session by
-            `qrsh`](#interactive-session-by-qrsh)
-        -   [Resource limitations](#resource-limitations)
-        -   [Canceling a job](#canceling-a-job)
-    -   [Using Jupyter Notebook](#using-jupyter-notebook)
-    -   [Data Storage](#data-storage)
-    -   [Biostatistics Specific Nodes](#biostatistics-specific-nodes)
-    -   [Request Biostatistics Nodes](#request-biostatistics-nodes)
-    -   [R Tutorial](#r-tutorial)
-    -   [Julia Tutorial](#julia-tutorial)
-    -   [Additional Resources](#additional-resources)
-
 Hoffman2 Tutorials for Biostatisticians
 =======================================
 
 This is a guide for using UCLA IDRE’s Hoffman2 cluster computing system.
 There are guides for running jobs specific to
-[R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial)
+[R](https://github.com/kose-y/Hoffman2Tutorials/tree/master/RTutorial)
 and
-[Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial),
+[Julia](https://github.com/kose-y/Hoffman2Tutorials/tree/master/JuliaTutorial),
 as well as general guides for commands and what is available for users.
 
 To try out the sample code in the tutorial, simply issue
 
-    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+    git clone https://github.com/kose-y/Hoffman2Tutorials.git
 
 on Hoffman2 to clone this repository.
 
@@ -103,7 +77,7 @@ for details.
 Basic Linux Commands
 --------------------
 
-To use Hoffman2, which runs on CentOS 6 (a specific Linux distribution),
+To use Hoffman2, which runs on CentOS 7 (a specific Linux distribution),
 you have to use linux/unix commands to navigate.
 
 Some most useful commands:
@@ -194,7 +168,7 @@ For large file transfers, it is recommended to use them through the URL
 
 Globus allows you to transfer files between your local computer and the
 cluster. To use Globus you will have to go to
-[www.globus.com](www.globus.com) and login through UCLA by selecting
+[www.globus.org](www.globus.org) and login through UCLA by selecting
 your existing organizational login as UCLA. Then you will need to
 download their Globus Connect Personal software, then set your laptop as
 an endpoint.
@@ -223,7 +197,7 @@ Hoffman2 has Git and svn available, which offer a more productive and
 reproducible way to synchornize source code between computers and
 platforms. For example, to get a copy of these tutorials, simply type
 
-    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+    git clone https://github.com/kose-y/Hoffman2Tutorials.git
 
 Submit Jobs to Hoffman2
 -----------------------
@@ -320,20 +294,19 @@ instructions at
 It needs you to set up password-less ssh connection and download a
 [Python
 script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb).
-Since it does not include any command or option to run
-`module load julia` or `module load R`, one needs to add lines that run
-them.
 
 Julia users might want to request an “any Intel” node. This can be
-achieved by adding an option of `(not arch == 'intel-\*')` to [Line
+achieved by adding an option of `(not arch == 'i*')` to [Line
 230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230)
-of the most recent commit of the file as of Nov 3, 2021.
+of the most recent commit of the file as of Nov 3, 2021. The file
+modified is provided
+[here](https://github.com/kose-y/Hoffman2Tutorials/tree/master/h2jupynb).
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
 would like to use. To use `julia v1.6`, login to Hoffman2, use the
 `qrsh` command to get an interactive compute note, then load julia 1.6,
-and launch julia and install the `IJulia` package.
+launch julia, and install the `IJulia` package.
 
 Data Storage
 ------------
@@ -426,7 +399,7 @@ R Tutorial
 ----------
 
 Specific guides for submitting [R
-jobs](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial),
+jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/RTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 
@@ -434,7 +407,7 @@ Julia Tutorial
 --------------
 
 Specific guides for submitting [Julia
-jobs](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial),
+jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/JuliaTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 

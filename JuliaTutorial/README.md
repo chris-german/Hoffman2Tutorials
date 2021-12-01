@@ -1,17 +1,3 @@
--   [Hoffman2 Julia Tutorial](#hoffman2-julia-tutorial)
-    -   [What is it and how to use](#what-is-it-and-how-to-use)
-    -   [Available Julia Versions](#available-julia-versions)
-    -   [Loading Julia](#loading-julia)
-    -   [Accessing a compute node](#accessing-a-compute-node)
-        -   [qsub](#qsub)
-        -   [qrsh](#qrsh)
-    -   [Resource limitations](#resource-limitations)
-    -   [A single simulation run](#a-single-simulation-run)
-    -   [Multiple simulation runs](#multiple-simulation-runs)
-    -   [Using Jupyter Notebook](#using-jupyter-notebook)
-    -   [Jobs crashing/failing/killed for some
-        reason](#jobs-crashingfailingkilled-for-some-reason)
-
 Hoffman2 Julia Tutorial
 =======================
 
@@ -82,7 +68,8 @@ type of file you `qsub` has to have a specific format (shell script).
     ## # run julia code
     ## echo 'Running runSim.jl for n = 100' #prints this quote to joblog.jobidnumber
     ## julia runSim.jl 100 100 123 "Normal()" > output.$JOB_ID 2>&1 # seed n reps seed distribition
-    ## #julia -e 'using Distributions; n = 100; d = Normal(); reps = 100; s = 123; include("runSim.jl")' > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
+    ## # command-line arguments: number of samples, number of repetitions, seed, command to create n samples
+    ## # outputs any text (stdout and stderr) to output.$JOB_ID
 
 To send this script to the scheduler to run on a compute node, you would
 simply type:
@@ -278,7 +265,7 @@ the jobs using `qsub`.
     ## echo ${SGE_TASK_ID}
     ## echo $1
     ## # run julia code
-    ## echo 'Running runSim.jl for n = 100' #prints this quote to joblog.jobidnumber
+    ## echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
     ## julia runSim.jl ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID.${SGE_TASK_ID} 2>&1 # n reps seed distribition
 
 So on the cluster we just need to run the following on an interactive

@@ -17,4 +17,5 @@ module load julia/1.6 #loads julia/1.6 for use
 # run julia code
 echo 'Running runSim.jl for n = 100' #prints this quote to joblog.jobidnumber
 julia runSim.jl 100 100 123 "Normal()" > output.$JOB_ID 2>&1 # seed n reps seed distribition
-#julia -e 'using Distributions; n = 100; d = Normal(); reps = 100; s = 123; include("runSim.jl")' > output.$JOB_ID 2>&1 #runs julia code in quotes and outputs any text to output.JOB_ID
+# command-line arguments: number of samples, number of repetitions, seed, command to create n samples
+# outputs any text (stdout and stderr) to output.$JOB_ID
