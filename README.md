@@ -202,13 +202,13 @@ platforms. For example, to get a copy of these tutorials, simply type
 Submit Jobs to Hoffman2
 -----------------------
 
-Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
-computing jobs on the cluster. UGE is a fork of Sun Grid Engine (now
-known as Oracle Grid Engine), and most commands and environment
+Hoffman2 uses the Altair’s Grid Engine (formerly Univa Grid Engine) to
+manage computing jobs on the cluster. It is a fork of Sun Grid Engine
+(now known as Oracle Grid Engine), and most commands and environment
 variables are identical to it. See
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html</a>
-for some commonly used UGE commands or the more exhaustive [UGE User
-Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
+for some commonly used commands or the [introductory
+guide](https://2021.help.altair.com/2021.1/AltairGridEngine/8.7.0/IntroductionGE.pdf).
 Following examples are more specific to biostatistical applications.
 
 ### Submit a batch job by `qsub`
@@ -293,14 +293,21 @@ instructions at
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab</a>.
 It needs you to set up password-less ssh connection and download a
 [Python
-script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb).
+script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb),
+and change its permission to `u+x` (`chmod u+x h2jupynb`)
 
 Julia users might want to request an “any Intel” node. This can be
-achieved by adding an option of `(not arch == 'i*')` to [Line
+achieved by adding an option of `(not arch == 'i\*')` to [Line
 230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230)
 of the most recent commit of the file as of Nov 3, 2021. The file
 modified is provided
 [here](https://github.com/kose-y/Hoffman2Tutorials/tree/master/h2jupynb).
+
+You can run:
+
+    ./h2jupynb -t 4 --arch "i\*"
+
+to request a single core on a single Intel node for four hours.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
