@@ -15,11 +15,11 @@ To try out the sample code in the tutorial, simply issue
 on Hoffman2 to clone this repository.
 
 This document is mainly compiled by Chris German and Hua Zhou, with
-valuable input from Alec Chan-Goldston and Lu Zhang. If you want to
-contribute to this tutorial, work on the RMarkdown files `README.Rmd`,
-`RTutorial/R_Hoffman2.Rmd`, and `JuliaTutorial/Julia_Hoffman2.Rmd`,
-which can be knitted into the corresponding `README.md` files, and make
-pull requests.
+valuable input from Alec Chan-Goldston and Lu Zhang. It is maintained
+and updated by Seyoon Ko. If you want to contribute to this tutorial,
+work on the RMarkdown files `README.Rmd`, `RTutorial/R_Hoffman2.Rmd`,
+and `JuliaTutorial/Julia_Hoffman2.Rmd`, which can be knitted into the
+corresponding `README.md` files, and make pull requests.
 
 What is Hoffman2
 ----------------
