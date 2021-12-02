@@ -1,3 +1,15 @@
+args = commandArgs(trailingOnly=TRUE)
+n = as.integer(args[1])
+reps = as.integer(args[2])
+s = as.integer(args[3])
+if(length(args) < 4){
+  d = "rnorm(n)"
+} else {
+  d = args[4]
+}
+oFile <- paste("simresults/", "n_", n, "d_", d, ".txt", sep="")
+
+
 ## check if a given integer is prime
 isPrime = function(n) {
   if (n <= 3) {

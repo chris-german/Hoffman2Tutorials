@@ -1,6 +1,6 @@
 ---
 title: "Hoffman2 Julia Tutorial"
-author: "Chris German and Hua Zhou"
+author: "Chris German, Seyoon Ko, and Hua Zhou"
 output:
   md_document:
     toc: true
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Hoffman2 Julia Tutorial
 
-This tutorial was created for `julia v1.1.0`. There is an [R version](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) available as well in this github repo. It goes over details of Hoffman2 jobs specific to R as well as running similar simulations in `R`.
+This tutorial was created for `julia v1.6`. There is an [R version](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial) available as well in this github repo. It goes over details of Hoffman2 jobs specific to R as well as running similar simulations in `R`.
 
 ## What is it and how to use
 
@@ -39,9 +39,9 @@ module avail julia
 
 ## Loading Julia
 
-To load a module, say `julia` version 1.1.0, for use type:
+To load a module, say `julia` version 1.6, for use type:
 ```{bash,eval=F}
-module load julia/1.1.0
+module load julia/1.6
 ```
 
 If you are going to need packages installed for your use on Hoffman2, load julia using `julia` and then install the packges. Note: This should be done on a compute node as compiling julia and libraries can take quite a bit of resources. Therefore, you should use `qrsh`, discussed in the general guide. Computing power is limited on login nodes so you should not run any analyses on the login node.
@@ -87,10 +87,10 @@ qrsh -help
 
 Once the interactive session loads, you can use 
 ```{bash,eval=F}
-module load julia/1.1.0
+module load julia/1.6
 julia
 ```
-to load `julia v1.1.0`.
+to load `julia v1.6`.
 
 ## Resource limitations
 
@@ -102,15 +102,15 @@ Requesting more than 4 cores for an interactive session can possibly take a long
 
 ## A single simulation run
 
-The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
+The [`runSim.jl`](./runSim.jl) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `dist`, and using seed `seed`. There are `reps` replicates. Values of `n`, `dist`, `seed` and `reps` are to be defined by the user. `oFile` is the file to save the results under. Simulation results are written to a CSV file, `outfile`. 
 ```{bash}
 cat runSim.jl
 ```
 
-To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`. For example,
+To run this simulation from command line, user needs to pass values for `n`, `reps`,`seed`, and `dist`, in that order. `dist` is a string that contains a command to initialize a distribution. For example,
 ```{bash,eval=F}
-module load julia/1.1.0
-julia -e 'using Distributions; n, d, reps, s = 100, Normal(), 100, 123; include("runSim.jl")'
+module load julia/1.6
+julia runSim.jl 100 100 123 "Normal()"
 ```
 
 We can see the results have been written to the txt file.
@@ -127,24 +127,29 @@ qsub submit.sh
 
 ## Multiple simulation runs
 
-In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
+In many projects, we vary the values of different simulation factors such as sample size, generative model, and so on. We can write a jobarray script to do this. 
+<!--We can write another julia script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.-->
 
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`clusterSim.jl`](./clusterSim.jl), we loop over sample sizes n (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom) and submit the jobs by building the file with each scenario to submit and using `qsub`. 
+On a cluster, each simulation can be submitted in a jobarray, which can be spread across different compute nodes. The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`submit_array.sh`](./submit_array.sh), we submit sample sizes n (100, 200, ..., 500) and generative models given as a command-line argument (standard normal by default, and it can be anything else) we can submit the jobs using `qsub`. 
 
 ```{bash}
-cat ClusterSim.jl
+cat submit_array.sh
 ```
 
 So on the cluster we just need to run the following on an interactive compute node
 ```{bash,eval=F}
-julia ClusterSim.jl
+qsub submit_array.sh
 ```
-<img src="pngs/juliasims.png" width="500">
+<!--<img src="pngs/juliasims.png" width="500">-->
 
+One may try different distributions. Examples of 5-df T distribution and 1-df T distributions are given in `run_arrays.sh`. 
+```{bash}
+cat run_arrays.sh
+```
 
-The generated `tmp.sh` file will read like this with different sample size and distributions created:
-```{bash,eval=F}
-cat tmp.sh
+You can submit these jobs by just running this script: 
+```bash
+bash run_arrays.sh
 ```
 
 You can check on the state of your current jobs by running:
@@ -165,13 +170,13 @@ ls simresults/*.txt
 
 To use Jupyter Notebook interactively in Hoffman2, follow the instructions linked [here](https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab)
 
-Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use -- to use `julia v1.1.0`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
+Note, to use Julia in Jupyter notebook, you will need to make sure you have installed the `IJulia` package in the version of julia that you would like to use -- to use `julia v1.6`, login to Hoffman2, use the `qrsh` command to get an interactive compute note, then load julia 1.1.0, and launch julia and install the `IJulia` package.
 
 ## Jobs crashing/failing/killed for some reason
 
 Julia jobs may randomly crash on Hoffman. There are 3 common reasons.
 1. Insufficient virtual memory. Even if your program require little physical memory, it may have larger than expected virtual memory requirement. See [how much virtual memory you need](https://www.hoffman2.idre.ucla.edu/About/FAQ/FAQ.html?highlight=maxvmem#how-much-virtual-memory-should-i-request-in-job-submission). Adding the `-l exclusive` flag bypasses virtual memory checking.
 2. If you are using Julia from the system-wide installation via `module load julia` (or downloaded the prebuilt Julia by yourself from Julia's download web site), it is recommended to do so on Intel nodes, as required by the prebuilt Julia. To do so, add the option `-l arch=intel*` to `qsub`, or `-l arch=intel\*` to qrsh. (The escape character `\` is necessary in `qrsh` since it is issued from the command prompt.)
-3. Some Julia packages require the `glibc` library newer than what CentOS 6 has. In that case, you will have to run on the CentOS 7 nodes. To do so, add `-l rh7` to `qrsh` or `qsub` commands. There are only a small number of CentOS 7 nodes right now; you may experience longer wait time that running on CentOS 6. Hoffman2 cluster will eventually transition to CentOS 7; the transition will take some time to complete but has started (3/23/2021).
+<!--3. Some Julia packages require the `glibc` library newer than what CentOS 6 has. In that case, you will have to run on the CentOS 7 nodes. To do so, add `-l rh7` to `qrsh` or `qsub` commands. There are only a small number of CentOS 7 nodes right now; you may experience longer wait time that running on CentOS 6. Hoffman2 cluster will eventually transition to CentOS 7; the transition will take some time to complete but has started (3/23/2021).-->
 
-Credit goes to Shiao-Ching Huang (@schuang) for pointing out 2 and 3. 
+Credit goes to Shiao-Ching Huang (@schuang) for pointing out 2. 

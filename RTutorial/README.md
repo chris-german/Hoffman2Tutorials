@@ -1,15 +1,3 @@
--   [Hoffman2 R Tutorial](#hoffman2-r-tutorial)
-    -   [Available R Versions](#available-r-versions)
-    -   [Loading Software](#loading-software)
-    -   [Accessing a compute node](#accessing-a-compute-node)
-        -   [qsub](#qsub)
-        -   [qrsh](#qrsh)
-        -   [R.q](#r.q)
-    -   [Resource limitations](#resource-limitations)
-    -   [Using RStudio on Hoffman2](#using-rstudio-on-hoffman2)
-    -   [A single simulation run](#a-single-simulation-run)
-    -   [Multiple simulation runs](#multiple-simulation-runs)
-
 Hoffman2 R Tutorial
 ===================
 
@@ -31,9 +19,9 @@ ones being installed as they are released and requested.
 Loading Software
 ----------------
 
-To load a module, say R version 3.5.1, for use type:
+To load a module, say R version 4.0.2, for use type:
 
-    module load R/3.5.1
+    module load R/4.0.2
 
 If you are going to need packages installed for your use on Hoffman2,
 load R using `R` and then install the packges. Note: This will be on the
@@ -65,11 +53,13 @@ type of file you `qsub` has to have a specific format (batch script).
     ## 
     ## # load the job environment:
     ## . /u/local/Modules/default/init/modules.sh
-    ## module load R/3.5.1 #loads R/3.5.1 for use 
+    ## module load R #loads R for use 
     ## 
     ## # run R code
-    ## echo 'Running runSim.R for n = 500' #prints this quote to joblog.jobidnumber
-    ## R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')" > output.$JOB_ID 2>&1 #runs R code in quotes and outputs any text to output.jobid
+    ## echo 'Running runSim.R' #prints this quote to joblog.jobidnumber
+    ## Rscript runSim.R 100 100 123 rnorm(n) > output.$JOB_ID 2>&1
+    ## # command-line arguments: number of samples, number of repetitions, seed, command to create n samples
+    ## # outputs any text (stdout and stderr) to output.$JOB_ID
 
 To send this script to the scheduler to run on a compute node, you would
 simply type:
@@ -200,11 +190,24 @@ The sample R script [`runSim.R`](./runSim.R) runs a simulation study to
 compare two methods for estimating mean: `est_mean_prime` and
 `est_mean_avg`. In each replicate, it generates a random vector of
 sample size `n`, from distribution `d`, and using seed `s`. There are
-`reps` replicates. Values of `n`, `d`, `s` `reps`, `ofile` are to be
-defined by the user. `oFile` is the file to save the simulation results.
+`reps` replicates. Values of `n`, `d`, `s` `reps` are defined by
+command-line arguments.
 
     cat runSim.R
 
+    ## args = commandArgs(trailingOnly=TRUE)
+    ## print(args)
+    ## n = as.integer(args[1])
+    ## reps = as.integer(args[2])
+    ## s = as.integer(args[3])
+    ## if(length(args) < 4){
+    ##   d = "rnorm(n)"
+    ## } else {
+    ##   d = args[4]
+    ## }
+    ## oFile <- paste("simresults/", "n_", n, "d_", d, ".txt", sep="")
+    ## 
+    ## 
     ## ## check if a given integer is prime
     ## isPrime = function(n) {
     ##   if (n <= 3) {
@@ -234,11 +237,12 @@ defined by the user. `oFile` is the file to save the simulation results.
     ## 
     ## write.csv(simres, file = oFile, row.names = F)
 
-To run this simulation from command line, user needs to pass values for
-`n`, `d`, `s`, `reps`, and `oFile`. For example,
+To run this simulation from command line, user needs pass value for `n`,
+`reps`, `s`, and `d` via command-line argument. For example,
 
-    module load R/3.5.1
-    R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"
+    module load R
+    Rscript runSim.R 100 100 123 rnorm(n)
+    # command-line arguments: number of samples, number of repetitions, seed, command to create n samples
 
 But remember we should not run this job on the login node. We submit it
 to a compute node using the script [`submit.sh`](./submit.sh)
@@ -269,100 +273,59 @@ Multiple simulation runs
 
 In a typical simulation study, we vary the values of different
 simulation factors such as sample size, generative model, effect size,
-and so on. We can write another R script to organize multiple
-simulations. It’s easy to set up and perform embarrasingly parallel
-simulation tasks.
+and so on. We can write a job script with jobarray setup to manage
+multiple simulations. It’s easy to set up and perform embarrasingly
+parallel simulation tasks.
 
-On a cluster, each simulation needs to be submitted separately (spread
-across different compute nodes). The syntax depends on the scheduling
-system. On UCLA’s Hoffman2 cluster, `qsub` is used. In
-[`ClusterSim.R`](./ClusterSim.R), we loop over sample sizes `n` (100,
-200, …, 500) and generative models (standard normal, T distribution with
-5 degree of freedom, and T distribution with 1 degree of freedom), and
-for each scenario build a script `tmp.sh` to submit using `qsub`.
+The syntax depends on the scheduling system. On UCLA’s Hoffman2 cluster,
+`qsub` is used. In [`submit_array.sh`](./submit_array.sh), we loop over
+sample sizes `n` (100, 200, …, 500). [`run_arrays.sh`](./run_arrays.sh)
+contains commands to submit multiple arrays with different generative
+models (standard normal, T distribution with 5 degree of freedom, and T
+distribution with 1 degree of freedom).
 
-    cat ClusterSim.R
-
-    ## #File runs 100 replicates of finding the mean average and estimated mean prime
-    ## #using seed 123 and sample sizes 100, 200, 300, 400, and 500 for distributioned
-    ## #Normal(0, 1), t(5), t(1) on the Hoffman2 cluster. 
-    ## 
-    ## reps = 100 # number of simulation replicates
-    ## s = 123 # seed
-    ## nVals <- seq(100, 500, by=100)
-    ## dists <- c("rnorm(n)", "rt(n, 5)", "rt(n, 1)")
-    ## for (n in nVals){
-    ##   for (d in dists){
-    ##     #display job info
-    ##     cat("submit job for n=", n, "d=", d, "\n")
-    ##     #create outfile name
-    ##     oFile <- paste("n_", n, "d_", d, ".txt", sep="")
-    ##     #create rcode to run
-    ##     rcode = paste0("n = ", n, "; d = '", d, "'; reps = ", reps, "; s = ", s,
-    ##                    "; oFile = '", oFile, "'; source('runSim.R')")
-    ##     
-    ##     # prepare sh file for qsub
-    ##     tp <- file("tmp.sh", "w")
-    ##     writeLines(con = tp, "#!/bin/bash")
-    ##     writeLines(con = tp, "#$ -cwd")
-    ##     writeLines(con = tp, "# error = Merged with joblog")
-    ##     writeLines(con = tp, "#$ -o joblog.$JOB_ID")
-    ##     writeLines(con = tp, "#$ -j y")
-    ##     writeLines(con = tp, "#$ -l h_rt=0:30:00,h_data=2G") # request runtime and memory
-    ##     writeLines(con = tp, "#$ -pe shared 2") # request # shared-memory nodes
-    ##     writeLines(con = tp, "# Email address to notify")
-    ##     writeLines(con = tp, "#$ -M $USER@mail")
-    ##     writeLines(con = tp, "# Notify when")
-    ##     writeLines(con = tp, "#$ -m a")
-    ##     writeLines(con = tp, "")
-    ##     writeLines(con = tp, "# load the job environment:")
-    ##     writeLines(con = tp, ". /u/local/Modules/default/init/modules.sh")
-    ##     writeLines(con = tp, "module load R/3.5.1")
-    ##     writeLines(con = tp, "")
-    ##     writeLines(con = tp, "# run julia code")
-    ##     cat(file = tp, "R -e \"", rcode, "\" > output.$JOB_ID 2>&1", sep = "")
-    ##     close(tp)
-    ##     sysCall <- paste("qsub tmp.sh")
-    ##     system(sysCall)
-    ##   }
-    ## }
-
-So on the cluster we just need to run
-
-    Rscript ClusterSim.R
-
-<img src="pngs/Rscriptcluster.png" style="width:35.0%" />
-
-The generated `tmp.sh` file for a specific scenario will read like this
-with different sample size and distributions created:
-
-    cat tmp.sh
+    cat submit_array.sh
 
     ## #!/bin/bash
-    ## #$ -cwd
+    ## #$ -cwd #uses current working directory
     ## # error = Merged with joblog
-    ## #$ -o joblog.$JOB_ID
-    ## #$ -j y
-    ## #$ -l h_rt=0:30:00,h_data=2G
-    ## #$ -pe shared 2
+    ## #$ -o joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to. 
+    ## #$ -j y 
+    ## #$ -l h_rt=0:30:00,h_data=2G #requests 30 minutes, 2GB of data (per core)
+    ## #$ -pe shared 2 #requests 2 cores
     ## # Email address to notify
-    ## #$ -M $USER@mail
+    ## #$ -M $USER@mail #don't change this line, finds your email in the system 
     ## # Notify when
-    ## #$ -m a
+    ## #$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
+    ## #$ -t 100-500:100 # 100 to 500, with step size of 100
     ## 
     ## # load the job environment:
     ## . /u/local/Modules/default/init/modules.sh
-    ## module load R/3.5.1
+    ## module load R
     ## 
+    ## echo ${SGE_TASK_ID}
+    ## echo $1
     ## # run julia code
-    ## R -e "n = 500; d = 'rt(n, 1)'; reps = 100; s = 123; oFile = 'n_500d_rt(n, 1).txt'; source('runSim.R')" > output.$JOB_ID 2>&1
+    ## echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
+    ## Rscript runSim.R ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID 2>&1
 
+    cat run_arrays.sh
+
+    ## qsub submit_array.sh # defaults to rnorm(n)
+    ## qsub submit_array.sh "rnorm(n)"
+    ## qsub submit_array.sh "rt(n, 5)"
+    ## qsub submit_array.sh "rt(n, 1)"
+
+So on the cluster we just need to run
+
+    bash run_arrays.sh
+
+<!--![](pngs/Rscriptcluster.png){width=35%}-->
 You can check on the state of your current jobs by running:
 
     myjob
 
-<img src="pngs/Myjob.png" width="550" />
-
+<!--![](pngs/Myjob.png){width=550px}-->
 To check the output files generated after the jobs have run.
 
     ls simresults/*.txt

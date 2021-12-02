@@ -1,51 +1,25 @@
--   [Hoffman2 Tutorials for
-    Biostatisticians](#hoffman2-tutorials-for-biostatisticians)
-    -   [What is Hoffman2](#what-is-hoffman2)
-    -   [Account Creation](#account-creation)
-    -   [Logging in](#logging-in)
-    -   [Basic Linux Commands](#basic-linux-commands)
-    -   [Available Software](#available-software)
-    -   [Loading Software](#loading-software)
-    -   [Transfering Files](#transfering-files)
-        -   [scp](#scp)
-        -   [Globus](#globus)
-        -   [Git and SVN](#git-and-svn)
-    -   [Submit Jobs to Hoffman2](#submit-jobs-to-hoffman2)
-        -   [Submit a batch job by `qsub`](#submit-a-batch-job-by-qsub)
-        -   [Interactive session by
-            `qrsh`](#interactive-session-by-qrsh)
-        -   [Resource limitations](#resource-limitations)
-        -   [Canceling a job](#canceling-a-job)
-    -   [Using Jupyter Notebook](#using-jupyter-notebook)
-    -   [Data Storage](#data-storage)
-    -   [Biostatistics Specific Nodes](#biostatistics-specific-nodes)
-    -   [Request Biostatistics Nodes](#request-biostatistics-nodes)
-    -   [R Tutorial](#r-tutorial)
-    -   [Julia Tutorial](#julia-tutorial)
-    -   [Additional Resources](#additional-resources)
-
 Hoffman2 Tutorials for Biostatisticians
 =======================================
 
 This is a guide for using UCLA IDRE’s Hoffman2 cluster computing system.
 There are guides for running jobs specific to
-[R](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial)
+[R](https://github.com/kose-y/Hoffman2Tutorials/tree/master/RTutorial)
 and
-[Julia](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial),
+[Julia](https://github.com/kose-y/Hoffman2Tutorials/tree/master/JuliaTutorial),
 as well as general guides for commands and what is available for users.
 
 To try out the sample code in the tutorial, simply issue
 
-    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+    git clone https://github.com/kose-y/Hoffman2Tutorials.git
 
 on Hoffman2 to clone this repository.
 
 This document is mainly compiled by Chris German and Hua Zhou, with
-valuable input from Alec Chan-Goldston and Lu Zhang. If you want to
-contribute to this tutorial, work on the RMarkdown files `README.Rmd`,
-`RTutorial/R_Hoffman2.Rmd`, and `JuliaTutorial/Julia_Hoffman2.Rmd`,
-which can be knitted into the corresponding `README.md` files, and make
-pull requests.
+valuable input from Alec Chan-Goldston and Lu Zhang. It is maintained
+and updated by Seyoon Ko. If you want to contribute to this tutorial,
+work on the RMarkdown files `README.Rmd`, `RTutorial/R_Hoffman2.Rmd`,
+and `JuliaTutorial/Julia_Hoffman2.Rmd`, which can be knitted into the
+corresponding `README.md` files, and make pull requests.
 
 What is Hoffman2
 ----------------
@@ -103,7 +77,7 @@ for details.
 Basic Linux Commands
 --------------------
 
-To use Hoffman2, which runs on CentOS 6 (a specific Linux distribution),
+To use Hoffman2, which runs on CentOS 7 (a specific Linux distribution),
 you have to use linux/unix commands to navigate.
 
 Some most useful commands:
@@ -149,9 +123,9 @@ those that start with `julia`, type
 Loading Software
 ----------------
 
-To load a module, say `julia` version 1.1.0, for use type:
+To load a module, say `julia` version 1.6, for use type:
 
-    module load julia/1.1.0
+    module load julia/1.6
 
 If you are going to need packages installed for your use on Hoffman2,
 load julia using `julia` and then install the packges. Note: This should
@@ -185,11 +159,16 @@ To use `scp`:
 -   To send directory with all files from cluster to local
     -   `scp -r username@hoffman2.idre.ucla.edu:∼/directory_to_send .`
 
+**Hoffman2 has [two dedicated nodes for data
+transfer](https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html).
+For large file transfers, it is recommended to use them through the URL
+`dtn.hoffman2.idre.ucla.edu` using `rsync` or Globus.**
+
 ### Globus
 
 Globus allows you to transfer files between your local computer and the
 cluster. To use Globus you will have to go to
-[www.globus.com](www.globus.com) and login through UCLA by selecting
+[www.globus.org](www.globus.org) and login through UCLA by selecting
 your existing organizational login as UCLA. Then you will need to
 download their Globus Connect Personal software, then set your laptop as
 an endpoint.
@@ -218,16 +197,18 @@ Hoffman2 has Git and svn available, which offer a more productive and
 reproducible way to synchornize source code between computers and
 platforms. For example, to get a copy of these tutorials, simply type
 
-    git clone https://github.com/chris-german/Hoffman2Tutorials.git
+    git clone https://github.com/kose-y/Hoffman2Tutorials.git
 
 Submit Jobs to Hoffman2
 -----------------------
 
-Hoffman2 uses the UGE (Univa Grid Engine) job schedular to manage
-computing jobs on the cluster. See
+Hoffman2 uses the Altair’s Grid Engine (formerly Univa Grid Engine) to
+manage computing jobs on the cluster. It is a fork of Sun Grid Engine
+(now known as Oracle Grid Engine), and most commands and environment
+variables are identical to it. See
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html</a>
-for some commonly used UGE commands or the more exhaustive [UGE User
-Guide](http://www.univa.com/resources/files/univa_user_guide_univa__grid_engine_854.pdf).
+for some commonly used commands or the [introductory
+guide](https://2021.help.altair.com/2021.1/AltairGridEngine/8.7.0/IntroductionGE.pdf).
 Following examples are more specific to biostatistical applications.
 
 ### Submit a batch job by `qsub`
@@ -310,28 +291,48 @@ Using Jupyter Notebook
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions at
 <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab</a>.
+It needs you to set up password-less ssh connection and download a
+[Python
+script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb),
+and change its permission to `u+x` (`chmod u+x h2jupynb`)
+
+Julia users might want to request an “any Intel” node. This can be
+achieved by adding an option of `(not arch == 'i\*')` to [Line
+230](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/-/blob/72fb764c72441763de3da93ccb8dbbe94f0bfbe5/h2jupynb#L230)
+of the most recent commit of the file as of Nov 3, 2021. The file
+modified is provided
+[here](https://github.com/kose-y/Hoffman2Tutorials/tree/master/h2jupynb).
+
+You can run:
+
+    ./h2jupynb -t 4 --arch "i\*"
+
+to request a single core on a single Intel node for four hours.
 
 Note, to use Julia in Jupyter notebook, you will need to make sure you
 have installed the `IJulia` package in the version of julia that you
-would like to use. To use `julia v1.1.0`, login to Hoffman2, use the
-`qrsh` command to get an interactive compute note, then load julia
-1.1.0, and launch julia and install the `IJulia` package.
+would like to use. To use `julia v1.6`, login to Hoffman2, use the
+`qrsh` command to get an interactive compute note, then load julia 1.6,
+launch julia, and install the `IJulia` package.
 
 Data Storage
 ------------
 
 Users have access to three types of data storage on Hoffman2: group
-space, scratch space, and user home space.
+space, scratch space, and user home space. See [this
+document](https://www.hoffman2.idre.ucla.edu/Using-H2/Storage/Storage.html)
+for the most updated information.
 
 -   Group space is available if you are in a group that purchased space
     through Hoffman2. If you are affiliated with Department of
     Biostatistics, most likely you have access to the space at
-    `/u/project/biostat-chair/[your_username]`.
+    `/u/project/biostat-chair/[your_username]`, and you will have a link
+    to this directory at `$HOME/project-biostat-chair`.
 
--   Scratch space allows you to store up to 1TB of data on the cluster,
-    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
+-   Scratch space allows you to store up to 2TB of data on the cluster,
+    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
     temporary storage only, and files are only guaranteed to stay on the
-    space for 7 days. After, they are erased.
+    space for 14 days. After, they are eligible to be erased.
 
 -   User home space is 20GB of data. This is where you can store files
     permanently.
@@ -357,31 +358,23 @@ the list of biostatistics nodes you can run the command
 with example output
 
     group_name @sudipto_pod
-    hostlist n6277 n7277 n6278 n7278 n6285 n7285 n6643 n7643
+    hostlist n6643 n7643
 
 To see what types of nodes there are (how many cores and how much memory
 each node has) you can run
 
-    qhost -h n6277 n7277 n6278 n7278 n6285 n7285 n6444 n7405
+    qhost -h n6643 n7643
 
 with output
 
     HOSTNAME                ARCH         NCPU NSOC NCOR NTHR NLOAD  MEMTOT  MEMUSE  SWAPTO  SWAPUS
     ----------------------------------------------------------------------------------------------
     global                  -               -    -    -    -     -       -       -       -       -
-    n6277                   intel-X5650    12    2   12   12  0.25   47.3G    5.8G   15.3G  107.0M
-    n6278                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G     0.0
-    n6285                   intel-X5650    12    2   12   12  0.25   47.3G    5.4G   15.3G  158.5M
-    n6643                   intel-gold-61  36    2   36   36  0.69  189.0G   22.4G   15.3G   65.0M
-    n7277                   intel-X5650    12    2   12   12  0.25   47.3G    6.7G   15.3G   68.4M
-    n7278                   intel-X5650    12    2   12   12  0.25   47.3G    6.8G   15.3G   65.7M
-    n7285                   intel-X5650    12    2   12   12  0.25   47.3G    5.0G   15.3G   72.4M
-    n7643                   intel-gold-61  36    2   36   36  0.71  189.0G   23.6G   15.3G   66.6M
+    n6643                   intel-gold-61  36    2   36   36  0.00  188.6G    5.8G    1.9G   58.2M
+    n7643                   intel-gold-61  36    2   36   36  0.00  188.6G    5.8G    1.9G   60.8M
 
-This shows that the biostatistics group has six nodes (n6277 n6278 n6285
-n7277 n7278 n7285), each with 12 cores and 48GB of memeory (an average
-of 4GB/core), and two nodes (n6643 n7643), each with 36 cores and 192GB
-of memory (an average of 5.3GB/core).
+This shows that the biostatistics group has two nodes (n6643 n7643),
+each with 36 cores and 192GB of memory (an average of 5.3GB/core).
 
 Request Biostatistics Nodes
 ---------------------------
@@ -413,7 +406,7 @@ R Tutorial
 ----------
 
 Specific guides for submitting [R
-jobs](https://github.com/chris-german/Hoffman2Tutorials/tree/master/RTutorial),
+jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/RTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 
@@ -421,7 +414,7 @@ Julia Tutorial
 --------------
 
 Specific guides for submitting [Julia
-jobs](https://github.com/chris-german/Hoffman2Tutorials/tree/master/JuliaTutorial),
+jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/JuliaTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 

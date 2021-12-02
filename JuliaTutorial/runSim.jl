@@ -1,4 +1,12 @@
 using DelimitedFiles, Distributions, Primes, Random, Statistics
+n = parse(Int, ARGS[1])
+reps = parse(Int, ARGS[2])
+seed = parse(Int, ARGS[3])
+if length(ARGS) < 4
+    d = Normal()
+else
+    d = eval(Meta.parse(ARGS[4]))
+end
 
 """
     est_mean_prime(x)
@@ -32,7 +40,7 @@ end
 
 # Simulate `reps` replicates of sample size `n` from distribution `d` using seed `s`
 simres = zeros(reps, 2)
-Random.seed!(s)
+Random.seed!(seed)
 for r in 1:reps
     x = rand(d, n)
     simres[r, 1] = est_mean_avg(x)

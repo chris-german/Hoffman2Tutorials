@@ -1,6 +1,6 @@
 ---
 title: "Hoffman2 R Tutorial"
-author: "Chris German and Hua Zhou"
+author: "Chris German, Seyoon Ko, and Hua Zhou"
 output:
   md_document:
     toc: true
@@ -35,9 +35,9 @@ module avail R
 
 ## Loading Software
 
-To load a module, say R version 3.5.1, for use type:
+To load a module, say R version 4.0.2, for use type:
 ```{bash, eval=F}
-module load R/3.5.1
+module load R/4.0.2
 ```
 
 If you are going to need packages installed for your use on Hoffman2, load R using `R` and then install the packges. Note: This will be on the login node, where computing power is limited so you should not run any analyses on this node. Instead, you run analyses on a compute node. 
@@ -147,15 +147,16 @@ rstudio
 
 ## A single simulation run
 
-The sample R script [`runSim.R`](./runSim.R) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` `reps`, `ofile` are to be defined by the user. `oFile` is the file to save the simulation results.
+The sample R script [`runSim.R`](./runSim.R) runs a simulation study to compare two methods for estimating mean: `est_mean_prime` and `est_mean_avg`. In each replicate, it generates a random vector of sample size `n`, from distribution `d`, and using seed `s`. There are `reps` replicates. Values of `n`, `d`, `s` `reps` are defined by command-line arguments.
 ```{bash}
 cat runSim.R
 ```
 
-To run this simulation from command line, user needs to pass values for `n`, `d`, `s`, `reps`, and `oFile`. For example,
+To run this simulation from command line, user needs pass value for `n`, `reps`, `s`, and `d` via command-line argument. For example,
 ```{bash, eval=FALSE}
-module load R/3.5.1
-R -e "n = 100; d = 'rnorm(n)'; reps = 100; s = 123; oFile = 'n_100d_rnorm(n).txt'; source('runSim.R')"
+module load R
+Rscript runSim.R 100 100 123 rnorm(n)
+# command-line arguments: number of samples, number of repetitions, seed, command to create n samples
 ```
 But remember we should not run this job on the login node. We submit it to a compute node using the script [`submit.sh`](./submit.sh)
 ```{bash, eval=F}
@@ -170,30 +171,29 @@ If you experience an error, you can take a look at the `output.####` file that w
 
 ## Multiple simulation runs
 
-In a typical simulation study, we vary the values of different simulation factors such as sample size, generative model, effect size, and so on. We can write another R script to organize multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
+In a typical simulation study, we vary the values of different simulation factors such as sample size, generative model, effect size, and so on. We can write a job script with jobarray setup to manage multiple simulations. It's easy to set up and perform embarrasingly parallel simulation tasks.
 
-On a cluster, each simulation needs to be submitted separately (spread across different compute nodes). The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`ClusterSim.R`](./ClusterSim.R), we loop over sample sizes `n` (100, 200, ..., 500) and generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom), and for each scenario build a script `tmp.sh` to submit using `qsub`.
+The syntax depends on the scheduling system. On UCLA's Hoffman2 cluster, `qsub` is used. In [`submit_array.sh`](./submit_array.sh), we loop over sample sizes `n` (100, 200, ..., 500). [`run_arrays.sh`](./run_arrays.sh) contains commands to submit multiple arrays with different generative models (standard normal, T distribution with 5 degree of freedom, and T distribution with 1 degree of freedom).
 ```{bash}
-cat ClusterSim.R
+cat submit_array.sh
+```
+
+```{bash}
+cat run_arrays.sh
 ```
 
 So on the cluster we just need to run
 ```{bash, eval=FALSE}
-Rscript ClusterSim.R
+bash run_arrays.sh
 ```
-![](pngs/Rscriptcluster.png){width=35%}
+<!--![](pngs/Rscriptcluster.png){width=35%}-->
 
-
-The generated `tmp.sh` file for a specific scenario will read like this with different sample size and distributions created:
-```{bash}
-cat tmp.sh
-```
 
 You can check on the state of your current jobs by running:
 ```{bash, eval=FALSE}
 myjob
 ```
-![](pngs/Myjob.png){width=550px}
+<!--![](pngs/Myjob.png){width=550px}-->
 
 To check the output files generated after the jobs have run.
 ```{bash}
