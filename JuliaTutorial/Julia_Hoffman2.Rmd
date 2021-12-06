@@ -180,3 +180,10 @@ Julia jobs may randomly crash on Hoffman. There are 3 common reasons.
 <!--3. Some Julia packages require the `glibc` library newer than what CentOS 6 has. In that case, you will have to run on the CentOS 7 nodes. To do so, add `-l rh7` to `qrsh` or `qsub` commands. There are only a small number of CentOS 7 nodes right now; you may experience longer wait time that running on CentOS 6. Hoffman2 cluster will eventually transition to CentOS 7; the transition will take some time to complete but has started (3/23/2021).-->
 
 Credit goes to Shiao-Ching Huang (@schuang) for pointing out 2. 
+
+## Two-dimensional job indexes (via shell programming)
+Sometimes, you might want to use two-dimensional indexes for running jobs. For example, splitting each of 22 human chromosomes into 16 chunks allowed the runs for [TrajGWAS](https://github.com/kose-y/TrajGWAS-reproducibility/tree/main/ukbiobank) project to finish in a reasonable time. Here is an example job script:
+
+```{bash}
+cat index2d_example.sh
+```

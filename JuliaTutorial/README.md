@@ -265,7 +265,7 @@ the jobs using `qsub`.
     ## echo ${SGE_TASK_ID}
     ## echo $1
     ## # run julia code
-    ## echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
+    ## echo Running runSim.jl for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
     ## julia runSim.jl ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID.${SGE_TASK_ID} 2>&1 # n reps seed distribition
 
 So on the cluster we just need to run the following on an interactive
@@ -352,3 +352,46 @@ prompt.)
 <!--3. Some Julia packages require the `glibc` library newer than what CentOS 6 has. In that case, you will have to run on the CentOS 7 nodes. To do so, add `-l rh7` to `qrsh` or `qsub` commands. There are only a small number of CentOS 7 nodes right now; you may experience longer wait time that running on CentOS 6. Hoffman2 cluster will eventually transition to CentOS 7; the transition will take some time to complete but has started (3/23/2021).-->
 
 Credit goes to Shiao-Ching Huang (@schuang) for pointing out 2.
+
+Two-dimensional job indexes (via shell programming)
+---------------------------------------------------
+
+Sometimes, you might want to use two-dimensional indexes for running
+jobs. For example, splitting each of 22 human chromosomes into 16 chunks
+allowed the runs for
+[TrajGWAS](https://github.com/kose-y/TrajGWAS-reproducibility/tree/main/ukbiobank)
+project to finish in a reasonable time. Here is an example job script:
+
+    cat index2d_example.sh
+
+    ## #!/bin/bash
+    ## #$ -cwd
+    ## # error = Merged with joblog
+    ## #$ -o joblog.$JOB_ID.$TASK_ID
+    ## #$ -j y
+    ## #$ -pe shared 2
+    ## #$ -l h_rt=3:00:00,h_data=8G,arch=intel*
+    ## # Email address to notify
+    ## ##$ -M $USER@mail
+    ## # Notify when
+    ## #$ -m a
+    ## #  Job array indexes
+    ## #$ -t 1-352:1
+    ## 
+    ## ## For use on UCLA's Hoffman2 cluster (Job scheduler: Univa Grid Engine)
+    ## 
+    ## NCHUNKS=16
+    ## CHUNKIDX=$(( (${SGE_TASK_ID} - 1) % ${NCHUNKS} + 1 ))
+    ## CHR=$(( (${SGE_TASK_ID} - 1) / ${NCHUNKS} + 1))
+    ## 
+    ## PROJECTDIR=... # intentionally omitted
+    ## BGENDIR=... # intentionally omitted
+    ## FITTED_NULL=... # intentionally omitted
+    ## PVALFILE=... # intentionally omitted
+    ## 
+    ## . /u/local/Modules/default/init/modules.sh
+    ## echo $CHUNKIDX
+    ## echo $CHR
+    ## echo $PVALFILE
+    ## module load julia/1.5.4
+    ## /usr/bin/time -o ${PROJECTDIR}/times/t-${SGE_TASK_ID} julia --project=${PROJECTDIR} ${PROJECTDIR}/scoretest.jl ${BGENDIR} ${CHR} ${FITTED_NULL} ${PVALFILE} ${CHUNKIDX} ${NCHUNKS}
