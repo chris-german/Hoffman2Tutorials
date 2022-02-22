@@ -27,9 +27,9 @@ It is maintained and updated by Seyoon Ko. If you want to contribute to this tut
 
 ## What is Hoffman2
 
-A computer cluster is a set of connected computers (nodes) that work together under one system. Each node has its own instance of an operating system and hardware. Clusters are used for high-performace distributed computing tasks. They are ideal for multilevel simulations and large-scale computations.
+A computer cluster is a set of connected computers (nodes) that work together under one system. Each node has its own instance of an operating system and hardware. Clusters are used for high-performance distributed computing tasks. They are ideal for multilevel simulations and large-scale computations.
 
-The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of memory. It consists of **login nodes** and **compute nodes**. Login nodes are where you can organize data (install packages, arrange data) and submit jobs and compute nodes are where computer-intensive tasks are run.
+The Hoffman2 Cluster is a group of computing nodes that consists of over 1,200 64-bit nodes and 13,340 cores. It has an aggregate of over 50TB of memory. It consists of **login nodes** and **compute nodes**. Login nodes are where you can organize data (install packages, arrange data) and submit jobs and compute nodes are where computer-intensive tasks are run.
 
 ## Account Creation
 
@@ -53,7 +53,7 @@ Upon login, you see a welcome message:
 
 <img src="JuliaTutorial/pngs/Hoffman2login.png" width="500">
 
-Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to establish SSH connection to Hoffman2. See <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows> for details.
+Windows users can use Git Bash, PuTTY, MobaXterm, or Cygwin programs to establish SSH connection to Hoffman2. See <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows> for details.
 
 ## Basic Linux Commands
 
@@ -287,4 +287,4 @@ Specific guides for submitting [Julia jobs](https://github.com/kose-y/Hoffman2Tu
 
 * Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped various biostatistics students and faculty with running their projects on Hoffman2. You can set up an appointment by sending an email (ticket) to <hpc@ucla.edu>. 
 
-* Dr. Hua Zhou's course _[Biostat 203B: Introduction to Data Science](https://ucla-biostat203b-2021winter.github.io/schedule/schedule.html)_ covers Linux basics, SSH keys, Git/GitHub, cluster computing using Hoffman2, and various other topics.
+* Dr. Hua Zhou's course _[Biostat 203B: Introduction to Data Science](https://ucla-biostat-203b.github.io/2022winter)_ covers Linux basics, SSH keys, Git/GitHub, cluster computing using Hoffman2, and various other topics.

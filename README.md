@@ -1,5 +1,4 @@
-Hoffman2 Tutorials for Biostatisticians
-=======================================
+# Hoffman2 Tutorials for Biostatisticians
 
 This is a guide for using UCLA IDRE’s Hoffman2 cluster computing system.
 There are guides for running jobs specific to
@@ -21,29 +20,27 @@ work on the RMarkdown files `README.Rmd`, `RTutorial/R_Hoffman2.Rmd`,
 and `JuliaTutorial/Julia_Hoffman2.Rmd`, which can be knitted into the
 corresponding `README.md` files, and make pull requests.
 
-What is Hoffman2
-----------------
+## What is Hoffman2
 
 A computer cluster is a set of connected computers (nodes) that work
 together under one system. Each node has its own instance of an
-operating system and hardware. Clusters are used for high-performace
+operating system and hardware. Clusters are used for high-performance
 distributed computing tasks. They are ideal for multilevel simulations
 and large-scale computations.
 
 The Hoffman2 Cluster is a group of computing nodes that consists of over
-1,200 64-bit nodes and 13,340 cores. It has an aggergate of over 50TB of
+1,200 64-bit nodes and 13,340 cores. It has an aggregate of over 50TB of
 memory. It consists of **login nodes** and **compute nodes**. Login
 nodes are where you can organize data (install packages, arrange data)
 and submit jobs and compute nodes are where computer-intensive tasks are
 run.
 
-Account Creation
-----------------
+## Account Creation
 
 The first step is to create an account.
 
 Register for an account at
-<a href="https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html" class="uri">https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html</a>.
+<https://www.hoffman2.idre.ucla.edu/Accounts/Requesting-an-account.html>.
 
 For faculty sponsor, you can choose your advisor if (s)he is on the
 list. If you do not have an advisor yet or (s)he is not on list, you can
@@ -54,8 +51,7 @@ temporary password that must be used within 4 weeks.
 
 <img src="JuliaTutorial/pngs/CCN_Hoffman2_Workshop.jpg" width="500">
 
-Logging in
-----------
+## Logging in
 
 To login, go to terminal in Linux/MacOS and type:
 
@@ -63,19 +59,18 @@ To login, go to terminal in Linux/MacOS and type:
 
 and enter your password when prompted. You can also set up the more
 secure SSH keys and no password is required, following
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh</a>.
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-terminal-and-ssh>.
 
 Upon login, you see a welcome message:
 
 <img src="JuliaTutorial/pngs/Hoffman2login.png" width="500">
 
-Windows users can use PuTTY, MobaXterm, Cygwin, or Git Bash programs to
+Windows users can use Git Bash, PuTTY, MobaXterm, or Cygwin programs to
 establish SSH connection to Hoffman2. See
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows</a>
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#setting-up-ssh-clients-for-windows>
 for details.
 
-Basic Linux Commands
---------------------
+## Basic Linux Commands
 
 To use Hoffman2, which runs on CentOS 7 (a specific Linux distribution),
 you have to use linux/unix commands to navigate.
@@ -100,8 +95,7 @@ Introduction to Data
 Science](https://ucla-biostat203b-2020winter.github.io/schedule.html)
 course.
 
-Available Software
-------------------
+## Available Software
 
 You can query available software on Hoffman2 by
 
@@ -120,8 +114,7 @@ those that start with `julia`, type
 
 <img src="JuliaTutorial/pngs/modavailjulia.png" width="500">
 
-Loading Software
-----------------
+## Loading Software
 
 To load a module, say `julia` version 1.6, for use type:
 
@@ -134,8 +127,7 @@ quite a bit of resources. Therefore, you should use `qrsh`, discussed
 later to do this. **Computing power is limited on login nodes so you
 should not run any analyses on the login node.**
 
-Transfering Files
------------------
+## Transfering Files
 
 ### scp
 
@@ -174,7 +166,7 @@ download their Globus Connect Personal software, then set your laptop as
 an endpoint.
 
 Very detailed instructions can be found here
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus</a>
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Data-transfer.html#globus>
 
 In short, login to globus, then under endpoints, select
 `Create new endpoint`. Select a Globus Personal connect, then enter a
@@ -199,14 +191,13 @@ platforms. For example, to get a copy of these tutorials, simply type
 
     git clone https://github.com/kose-y/Hoffman2Tutorials.git
 
-Submit Jobs to Hoffman2
------------------------
+## Submit Jobs to Hoffman2
 
 Hoffman2 uses the Altair’s Grid Engine (formerly Univa Grid Engine) to
 manage computing jobs on the cluster. It is a fork of Sun Grid Engine
 (now known as Oracle Grid Engine), and most commands and environment
 variables are identical to it. See
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html</a>
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Computing/Computing.html>
 for some commonly used commands or the [introductory
 guide](https://2021.help.altair.com/2021.1/AltairGridEngine/8.7.0/IntroductionGE.pdf).
 Following examples are more specific to biostatistical applications.
@@ -285,12 +276,11 @@ use `myjob` to determine the job ID and then type:
 and the job will be canceled. To cancel all jobs simply leave `jobID`
 blank.
 
-Using Jupyter Notebook
-----------------------
+## Using Jupyter Notebook
 
 To use Jupyter Notebook interactively in Hoffman2, follow the
 instructions at
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab</a>.
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab>.
 It needs you to set up password-less ssh connection and download a
 [Python
 script](https://gitlab.idre.ucla.edu/dauria/jupyter-notebook/raw/master/h2jupynb),
@@ -315,8 +305,7 @@ would like to use. To use `julia v1.6`, login to Hoffman2, use the
 `qrsh` command to get an interactive compute note, then load julia 1.6,
 launch julia, and install the `IJulia` package.
 
-Data Storage
-------------
+## Data Storage
 
 Users have access to three types of data storage on Hoffman2: group
 space, scratch space, and user home space. See [this
@@ -330,7 +319,7 @@ for the most updated information.
     to this directory at `$HOME/project-biostat-chair`.
 
 -   Scratch space allows you to store up to 2TB of data on the cluster,
-    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
+    accessible by `$SCRATCH`. i.e. `cd $SCRATCH`. This is meant for
     temporary storage only, and files are only guaranteed to stay on the
     space for 14 days. After, they are eligible to be erased.
 
@@ -339,8 +328,7 @@ for the most updated information.
 
 To check your storage usage and availability, use the command `myquota`.
 
-Biostatistics Specific Nodes
-----------------------------
+## Biostatistics Specific Nodes
 
 If you are a biostatistics doctoral student, there are compute nodes
 that the biostatistics department has which will allow you to run jobs
@@ -376,8 +364,7 @@ with output
 This shows that the biostatistics group has two nodes (n6643 n7643),
 each with 36 cores and 192GB of memory (an average of 5.3GB/core).
 
-Request Biostatistics Nodes
----------------------------
+## Request Biostatistics Nodes
 
 To request these nodes specifically, include `-l highp` when requesting
 the job.
@@ -402,24 +389,21 @@ to highp, follow steps:
     where job\_id is replaced by the actual job ID (number). For more
     information about `qalter`, try the command: `man qalter`.
 
-R Tutorial
-----------
+## R Tutorial
 
 Specific guides for submitting [R
 jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/RTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 
-Julia Tutorial
---------------
+## Julia Tutorial
 
 Specific guides for submitting [Julia
 jobs](https://github.com/kose-y/Hoffman2Tutorials/tree/master/JuliaTutorial),
 including example code of submitting to multiple nodes for a typical
 simulation study.
 
-Additional Resources
---------------------
+## Additional Resources
 
 -   [Hoffman2 website](https://www.hoffman2.idre.ucla.edu/index.html)
     has detailed documentation and information on using the cluster.
@@ -427,10 +411,9 @@ Additional Resources
 -   Dr. Raffaella D’Auria at IDRE is a valuable resource. She has helped
     various biostatistics students and faculty with running their
     projects on Hoffman2. You can set up an appointment by sending an
-    email (ticket) to
-    <a href="mailto:hpc@ucla.edu" class="email">hpc@ucla.edu</a>.
+    email (ticket) to <hpc@ucla.edu>.
 
 -   Dr. Hua Zhou’s course *[Biostat 203B: Introduction to Data
-    Science](https://ucla-biostat203b-2021winter.github.io/schedule/schedule.html)*
-    covers Linux basics, SSH keys, Git/GitHub, cluster computing using
+    Science](https://ucla-biostat-203b.github.io/2022winter)* covers
+    Linux basics, SSH keys, Git/GitHub, cluster computing using
     Hoffman2, and various other topics.
