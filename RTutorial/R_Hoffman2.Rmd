@@ -85,65 +85,61 @@ Different compute nodes have different amounts of memory. There are fewer nodes 
 
 Requesting more than 4 cores for an interactive session can possibly take a long time for the interactive session to start. 
 
-## Using RStudio on Hoffman2
+## Using RStudio Server on Hoffman2
 
-To use RStudio on Hoffman2, you must launch an interactive session via `qrsh` and then load the R studio module. Then you type `rstudio` and the RStudio IDE will launch. You may have to setup x11 forwarding, via this link <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications>. On a Mac, you will need to install XQuartz, run 
-```{bash, eval = FALSE}
-defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
-```
-in terminal and when logging into Hoffman2, type:
-```{bash, eval = FALSE}
-ssh -Y username@hoffman2.idre.ucla.edu
-```
+To use RStudio on Hoffman2, the recommended way is through RStudio Server running on a compute node. To do so, you will have to launch an interactive session via `qrsh` and then run Rstudio Server inside [Apptainer](https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#apptainer), an operating system virtualization program. 
 
-If you get the warning message:
-`Warning: No xauth data; using fake authentication data for X11 forwarding.`
+1. Inside the cluster command line, run:
 
-You will need to setup a config file in your local machine's /.ssh/ path that specifies ForwardX11 yes.
-On a Mac, you may also need to specify the XAuth location, for my computer I created the config file and added the following lines.  
-```
-Host hoffman2  
-Hostname=hoffman2.idre.ucla.edu  
-User=username  
-XAuthLocation /opt/X11/bin/xauth  
-ForwardAgent yes  
-ForwardX11 yes  
-ForwardX11Trusted yes  
-```
-This can be done on a mac via
-
-```{bash, eval=FALSE}
-nano ~/.ssh/config
-```
-Then typing the lines above, and pressing `control + O` to save then `enter` to save the name and then `control + X` to exit.
-
-This sets up forwarding and also allows you to access the cluster as `username` by simply typing 
-```{bash, eval=FALSE}
-ssh hoffman2
+```bash
+# get an interactive job
+qrsh -l h_data=5G
+# Create small tmp directories for RStudio to write into
+mkdir -pv $SCRATCH/rstudiotmp/var/lib
+mkdir -pv $SCRATCH/rstudiotmp/var/run
+mkdir -pv $SCRATCH/rstudiotmp/tmp
+#Setup apptainer
+module load apptainer/1.0.0
+#Run rstudio
+apptainer run -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server -B $SCRATCH/rstudiotmp/tmp:/tmp $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
+# This command will display some information and a `ssh -L ...` command for you to run on a separate terminal 
 ```
 
-Then to access RStudio run the following:
-```{bash, eval=FALSE}
-qrsh
-module load R/4.0.2
-module load Rstudio
-rstudio
+After the `apptainer` command you will be prompted with information regarding the version of R and Rstudio, the node where the Rstudio session is running and the port through which the application is listening. There will also be three lines of instructing you on how to initiate an SSH tunnel on your local computer in order to be able to connect with your local browser to the Rstudio session running remotely on the cluster compute node. These instructions are relevant for the next steps and are highlighted in the sample output of the `apptainer` command:
+
+```
+$ apptainer run -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server -B $SCRATCH/rstudiotmp/tmp:/tmp $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
+INFO:    Converting SIF file to temporary sandbox...
+
+
+This is the Rstudio server container running R 4.1.0 from Rocker
+
+This is a separate R version from the rest of Hoffman2
+When you install libraries from this Rstudio/R, they will be in ~/R/APPTAINER/h2-rstudio_4.1.0
+
+Your Rstudio server is running on:  n7677
+It is running on PORT:  8787
+
+Open a SSH tunnel on your local computer by running:
+ ssh -N -L 8787:nXXXX:8787 joebruin@hoffman2.idre.ucla.edu
+
+Then open your web browser to  http://localhost:8787
 ```
 
-RStudio will launch in the application that you use for x11 forwarding and you can use it as you would RStudio on your own computer.
+where `nXXXX` will be the name of the actual compute node where the Rstudio session is running and `joebruin` will be your Hoffman2 Cluster User ID. Make note of these instructions as they will be needed in the next step of the setup.
 
-If you do not have a module of R loaded, Rstudio will load the current default version of R on the cluster unless you have an R module alredy loaded.
 
-The version of Rstudio on Hoffman2 is quite old, some of the nodes have a more modern version of Rstudio. You can request an interactive session on these nodes specifically with the `-l rh7` option, such as:
+2. Open a new terminal on your _local_ machine, and initiate SSH tunnel using the command shown in the previous step: 
 
-```{bash, eval=FALSE}
-qrsh -l rh7
-module load Rstudio
-rstudio
+```bash
+ssh -N -L 8787:nXXXX:8787 joebruin@hoffman2.idre.ucla.edu
 ```
 
+where `nXXXX` will be the name of the compute node where the Rstudio session is running and `joebruin` will be your Hoffman2 Cluster User ID. After issuing the command you will be prompted for your password and, if the SSH tunnel is successful the prompt will not return on this terminal. This needs the `ssh` program (e.g. OpenSSH) accessible on the terminal of your local machine.
 
-![](pngs/rstudio.png)
+After this, connections to port 8787 of your local machine is forwarded to the port 8787 of the remote machine (node `nXXXX` of Hoffman2). This will allow you to access the RStudio running on a compute node of Hoffman2 by typing `http://localhost:8787` on your web browser.
+
+For more information, visit https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio. Click on the "RStudio Server" tab.
 
 ## A single simulation run
 

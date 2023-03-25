@@ -1,3 +1,16 @@
+-   [Hoffman2 R Tutorial](#hoffman2-r-tutorial)
+    -   [Available R Versions](#available-r-versions)
+    -   [Loading Software](#loading-software)
+    -   [Accessing a compute node](#accessing-a-compute-node)
+        -   [qsub](#qsub)
+        -   [qrsh](#qrsh)
+        -   [R.q](#r.q)
+    -   [Resource limitations](#resource-limitations)
+    -   [Using RStudio Server on
+        Hoffman2](#using-rstudio-server-on-hoffman2)
+    -   [A single simulation run](#a-single-simulation-run)
+    -   [Multiple simulation runs](#multiple-simulation-runs)
+
 Hoffman2 R Tutorial
 ===================
 
@@ -57,7 +70,7 @@ type of file you `qsub` has to have a specific format (batch script).
     ## 
     ## # run R code
     ## echo 'Running runSim.R' #prints this quote to joblog.jobidnumber
-    ## Rscript runSim.R 100 100 123 rnorm(n) > output.$JOB_ID 2>&1
+    ## Rscript runSim.R 100 100 123 "rnorm(n)" > output.$JOB_ID 2>&1
     ## # command-line arguments: number of samples, number of repetitions, seed, command to create n samples
     ## # outputs any text (stdout and stderr) to output.$JOB_ID
 
@@ -115,73 +128,85 @@ running. If you request too much, the job may never run.
 Requesting more than 4 cores for an interactive session can possibly
 take a long time for the interactive session to start.
 
-Using RStudio on Hoffman2
--------------------------
+Using RStudio Server on Hoffman2
+--------------------------------
 
-To use RStudio on Hoffman2, you must launch an interactive session via
-`qrsh` and then load the R studio module. Then you type `rstudio` and
-the RStudio IDE will launch. You may have to setup x11 forwarding, via
-this link
-<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#opening-gui-applications</a>.
-On a Mac, you will need to install XQuartz, run
+To use RStudio on Hoffman2, the recommended way is through RStudio
+Server running on a compute node. To do so, you will have to launch an
+interactive session via `qrsh` and then run Rstudio Server inside
+[Apptainer](https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#apptainer),
+an operating system virtualization program.
 
-    defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
+1.  Inside the cluster command line, run:
 
-in terminal and when logging into Hoffman2, type:
+<!-- -->
 
-    ssh -Y username@hoffman2.idre.ucla.edu
+    # get an interactive job
+    qrsh -l h_data=5G
+    # Create small tmp directories for RStudio to write into
+    mkdir -pv $SCRATCH/rstudiotmp/var/lib
+    mkdir -pv $SCRATCH/rstudiotmp/var/run
+    mkdir -pv $SCRATCH/rstudiotmp/tmp
+    #Setup apptainer
+    module load apptainer/1.0.0
+    #Run rstudio
+    apptainer run -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server -B $SCRATCH/rstudiotmp/tmp:/tmp $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
+    # This command will display some information and a `ssh -L ...` command for you to run on a separate terminal 
 
-If you get the warning message:
-`Warning: No xauth data; using fake authentication data for X11 forwarding.`
+After the `apptainer` command you will be prompted with information
+regarding the version of R and Rstudio, the node where the Rstudio
+session is running and the port through which the application is
+listening. There will also be three lines of instructing you on how to
+initiate an SSH tunnel on your local computer in order to be able to
+connect with your local browser to the Rstudio session running remotely
+on the cluster compute node. These instructions are relevant for the
+next steps and are highlighted in the sample output of the `apptainer`
+command:
 
-You will need to setup a config file in your local machine’s /.ssh/ path
-that specifies ForwardX11 yes. On a Mac, you may also need to specify
-the XAuth location, for my computer I created the config file and added
-the following lines.
+    $ apptainer run -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server -B $SCRATCH/rstudiotmp/tmp:/tmp $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
+    INFO:    Converting SIF file to temporary sandbox...
 
-    Host hoffman2  
-    Hostname=hoffman2.idre.ucla.edu  
-    User=username  
-    XAuthLocation /opt/X11/bin/xauth  
-    ForwardAgent yes  
-    ForwardX11 yes  
-    ForwardX11Trusted yes  
 
-This can be done on a mac via
+    This is the Rstudio server container running R 4.1.0 from Rocker
 
-    nano ~/.ssh/config
+    This is a separate R version from the rest of Hoffman2
+    When you install libraries from this Rstudio/R, they will be in ~/R/APPTAINER/h2-rstudio_4.1.0
 
-Then typing the lines above, and pressing `control + O` to save then
-`enter` to save the name and then `control + X` to exit.
+    Your Rstudio server is running on:  n7677
+    It is running on PORT:  8787
 
-This sets up forwarding and also allows you to access the cluster as
-`username` by simply typing
+    Open a SSH tunnel on your local computer by running:
+     ssh -N -L 8787:nXXXX:8787 joebruin@hoffman2.idre.ucla.edu
 
-    ssh hoffman2
+    Then open your web browser to  http://localhost:8787
 
-Then to access RStudio run the following:
+where `nXXXX` will be the name of the actual compute node where the
+Rstudio session is running and `joebruin` will be your Hoffman2 Cluster
+User ID. Make note of these instructions as they will be needed in the
+next step of the setup.
 
-    qrsh
-    module load R/4.0.2
-    module load Rstudio
-    rstudio
+1.  Open a new terminal on your *local* machine, and initiate SSH tunnel
+    using the command shown in the previous step:
 
-RStudio will launch in the application that you use for x11 forwarding
-and you can use it as you would RStudio on your own computer.
+<!-- -->
 
-If you do not have a module of R loaded, Rstudio will load the current
-default version of R on the cluster unless you have an R module alredy
-loaded.
+    ssh -N -L 8787:nXXXX:8787 joebruin@hoffman2.idre.ucla.edu
 
-The version of Rstudio on Hoffman2 is quite old, some of the nodes have
-a more modern version of Rstudio. You can request an interactive session
-on these nodes specifically with the `-l rh7` option, such as:
+where `nXXXX` will be the name of the compute node where the Rstudio
+session is running and `joebruin` will be your Hoffman2 Cluster User ID.
+After issuing the command you will be prompted for your password and, if
+the SSH tunnel is successful the prompt will not return on this
+terminal. This needs the `ssh` program (e.g. OpenSSH) accessible on the
+terminal of your local machine.
 
-    qrsh -l rh7
-    module load Rstudio
-    rstudio
+After this, connections to port 8787 of your local machine is forwarded
+to the port 8787 of the remote machine (node `nXXXX` of Hoffman2). This
+will allow you to access the RStudio running on a compute node of
+Hoffman2 by typing `http://localhost:8787` on your web browser.
 
-![](pngs/rstudio.png)
+For more information, visit
+<a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio" class="uri">https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio</a>.
+Click on the “RStudio Server” tab.
 
 A single simulation run
 -----------------------
@@ -196,7 +221,6 @@ command-line arguments.
     cat runSim.R
 
     ## args = commandArgs(trailingOnly=TRUE)
-    ## print(args)
     ## n = as.integer(args[1])
     ## reps = as.integer(args[2])
     ## s = as.integer(args[3])
@@ -306,15 +330,15 @@ distribution with 1 degree of freedom).
     ## echo ${SGE_TASK_ID}
     ## echo $1
     ## # run julia code
-    ## echo 'Running runSim.jl for n = ${SGE_TASK_ID}' #prints this quote to joblog.jobidnumber
-    ## Rscript runSim.R ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID 2>&1
+    ## echo Running runSim.jl for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
+    ## Rscript runSim.R ${SGE_TASK_ID} 100 123 $1 > output.$JOB_ID.${SGE_TASK_ID} 2>&1
 
     cat run_arrays.sh
 
     ## qsub submit_array.sh # defaults to rnorm(n)
     ## qsub submit_array.sh "rnorm(n)"
-    ## qsub submit_array.sh "rt(n, 5)"
-    ## qsub submit_array.sh "rt(n, 1)"
+    ## qsub submit_array.sh "rt(n,5)"
+    ## qsub submit_array.sh "rt(n,1)"
 
 So on the cluster we just need to run
 
@@ -331,17 +355,17 @@ To check the output files generated after the jobs have run.
     ls simresults/*.txt
 
     ## simresults/n_100d_rnorm(n).txt
-    ## simresults/n_100d_rt(n, 1).txt
-    ## simresults/n_100d_rt(n, 5).txt
+    ## simresults/n_100d_rt(n,1).txt
+    ## simresults/n_100d_rt(n,5).txt
     ## simresults/n_200d_rnorm(n).txt
-    ## simresults/n_200d_rt(n, 1).txt
-    ## simresults/n_200d_rt(n, 5).txt
+    ## simresults/n_200d_rt(n,1).txt
+    ## simresults/n_200d_rt(n,5).txt
     ## simresults/n_300d_rnorm(n).txt
-    ## simresults/n_300d_rt(n, 1).txt
-    ## simresults/n_300d_rt(n, 5).txt
+    ## simresults/n_300d_rt(n,1).txt
+    ## simresults/n_300d_rt(n,5).txt
     ## simresults/n_400d_rnorm(n).txt
-    ## simresults/n_400d_rt(n, 1).txt
-    ## simresults/n_400d_rt(n, 5).txt
+    ## simresults/n_400d_rt(n,1).txt
+    ## simresults/n_400d_rt(n,5).txt
     ## simresults/n_500d_rnorm(n).txt
-    ## simresults/n_500d_rt(n, 1).txt
-    ## simresults/n_500d_rt(n, 5).txt
+    ## simresults/n_500d_rt(n,1).txt
+    ## simresults/n_500d_rt(n,5).txt
